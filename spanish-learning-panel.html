@@ -279,6 +279,135 @@
       outline: none;
     }
 
+    .speed-control {
+      min-height: 40px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .speed-control input {
+      width: 120px;
+      accent-color: var(--terra);
+    }
+
+    .practice-panel {
+      margin: 0 0 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 14px;
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(31, 41, 51, 0.08);
+    }
+
+    .practice-main {
+      display: grid;
+      gap: 14px;
+    }
+
+    .practice-kicker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--terra-dark);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .practice-question {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .practice-prompt {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .answer-btn {
+      min-height: 52px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      line-height: 1.45;
+    }
+
+    .answer-btn.correct {
+      border-color: var(--green);
+      background: rgba(63, 125, 74, 0.12);
+    }
+
+    .answer-btn.wrong {
+      border-color: var(--terra);
+      background: rgba(200, 77, 52, 0.12);
+    }
+
+    .practice-feedback {
+      min-height: 24px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .practice-side {
+      padding: 16px;
+      border-radius: 8px;
+      background: #24313d;
+      color: #fff;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .score-box {
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .score-box strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .score-box span {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 12px;
+    }
+
+    .practice-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -537,6 +666,8 @@
       .sidebar { min-height: auto; }
       main { padding: 18px; }
       .grid, .schedule { grid-template-columns: 1fr; }
+      .practice-panel { grid-template-columns: 1fr; }
+      .answers { grid-template-columns: 1fr; }
       .vocab-head { display: grid; }
       .vocab-row { grid-template-columns: 1fr; }
       .hero { padding: 22px; }
@@ -604,7 +735,35 @@
           <button class="chip" data-filter="熟練">熟練</button>
         </div>
         <input id="searchInput" class="search" type="search" placeholder="搜尋：hola、我叫、餐廳..." aria-label="搜尋句型">
+        <label class="speed-control">
+          語速 <input id="speedInput" type="range" min="0.55" max="1.15" step="0.05" value="0.82">
+          <strong id="speedValue">0.82x</strong>
+        </label>
       </div>
+
+      <section class="panel practice-panel" aria-label="練習題">
+        <div class="practice-main">
+          <div class="practice-kicker">
+            <span id="practiceMode">聽力選擇</span>
+            <button id="practiceSpeak" class="icon-btn speak-main" type="button" title="播放題目">▶ 播放</button>
+          </div>
+          <h3 id="practiceQuestion" class="practice-question">準備練習</h3>
+          <p id="practicePrompt" class="practice-prompt">依照題目選出正確答案。</p>
+          <div id="answerGrid" class="answers"></div>
+          <div id="practiceFeedback" class="practice-feedback"></div>
+          <div class="practice-actions">
+            <button id="nextQuestion" class="chip active" type="button">下一題</button>
+            <button id="resetPractice" class="chip" type="button">重置分數</button>
+          </div>
+        </div>
+        <aside class="practice-side">
+          <div class="score-grid">
+            <div class="score-box"><strong id="scoreText">0</strong><span>答對</span></div>
+            <div class="score-box"><strong id="streakText">0</strong><span>連勝</span></div>
+          </div>
+          <p class="practice-prompt">練習會輪流出現聽音選意思、看中文選外語、句型填空。答完會立刻給回饋。</p>
+        </aside>
+      </section>
 
       <section id="cards" class="grid" aria-live="polite"></section>
 
@@ -760,6 +919,18 @@
     const vocabSearch = document.querySelector("#vocabSearch");
     const vocabTable = document.querySelector("#vocabTable");
     const vocabularyPanel = document.querySelector("#vocabularyPanel");
+    const speedInput = document.querySelector("#speedInput");
+    const speedValue = document.querySelector("#speedValue");
+    const practiceMode = document.querySelector("#practiceMode");
+    const practiceSpeak = document.querySelector("#practiceSpeak");
+    const practiceQuestion = document.querySelector("#practiceQuestion");
+    const practicePrompt = document.querySelector("#practicePrompt");
+    const answerGrid = document.querySelector("#answerGrid");
+    const practiceFeedback = document.querySelector("#practiceFeedback");
+    const nextQuestion = document.querySelector("#nextQuestion");
+    const resetPractice = document.querySelector("#resetPractice");
+    const scoreText = document.querySelector("#scoreText");
+    const streakText = document.querySelector("#streakText");
     const progressText = document.querySelector("#progressText");
     const progressBar = document.querySelector("#progressBar");
     const brandTitle = document.querySelector("#brandTitle");
@@ -777,6 +948,12 @@
     let activeLanguage = "spanish";
     let currentSection = "all";
     let currentFilter = "all";
+    let speechRate = Number(speedInput.value);
+    let currentQuestion = null;
+    let practiceStats = {
+      spanish: { score: 0, streak: 0, answered: 0 },
+      japanese: { score: 0, streak: 0, answered: 0 }
+    };
 
     const languageConfig = {
       spanish: {
@@ -851,9 +1028,102 @@
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = activeConfig().speechLang;
-      utterance.rate = 0.82;
+      utterance.rate = speechRate;
       utterance.pitch = 1;
       window.speechSynthesis.speak(utterance);
+    }
+
+    function shuffle(items) {
+      return [...items].sort(() => Math.random() - 0.5);
+    }
+
+    function sampleLessons(exceptTitle, count) {
+      return shuffle(activeLessons().filter(item => item.title !== exceptTitle)).slice(0, count);
+    }
+
+    function firstExample(item) {
+      return item.examples[0];
+    }
+
+    function makeQuestion() {
+      const lessons = activeLessons();
+      const item = shuffle(lessons)[0];
+      const example = firstExample(item);
+      const type = Math.floor(Math.random() * 3);
+      const distractors = sampleLessons(item.title, 3);
+
+      if (type === 0) {
+        return {
+          mode: "聽力選擇",
+          question: "聽播放，選出正確中文意思",
+          prompt: "先按播放，再選這句話的中文意思。",
+          speakText: example[0],
+          answer: example[1],
+          options: shuffle([example[1], ...distractors.map(other => firstExample(other)[1])])
+        };
+      }
+
+      if (type === 1) {
+        return {
+          mode: "中文選外語",
+          question: example[1],
+          prompt: "看到中文，選出對應的外語句子。",
+          speakText: example[0],
+          answer: example[0],
+          options: shuffle([example[0], ...distractors.map(other => firstExample(other)[0])])
+        };
+      }
+
+      return {
+        mode: "句型填空",
+        question: `「${item.meaning}」要用哪個句型？`,
+        prompt: item.pattern,
+        speakText: item.title,
+        answer: item.title,
+        options: shuffle([item.title, ...distractors.map(other => other.title)])
+      };
+    }
+
+    function updatePracticeStats() {
+      const stats = practiceStats[activeLanguage];
+      scoreText.textContent = stats.score;
+      streakText.textContent = stats.streak;
+    }
+
+    function renderQuestion() {
+      currentQuestion = makeQuestion();
+      answerGrid.dataset.locked = "false";
+      practiceMode.textContent = currentQuestion.mode;
+      practiceQuestion.textContent = currentQuestion.question;
+      practicePrompt.textContent = currentQuestion.prompt;
+      practiceFeedback.textContent = "";
+      answerGrid.innerHTML = currentQuestion.options.map(option => (
+        `<button class="answer-btn" data-answer="${option}" type="button">${option}</button>`
+      )).join("");
+      updatePracticeStats();
+    }
+
+    function chooseAnswer(answer, button) {
+      if (!currentQuestion || answerGrid.dataset.locked === "true") return;
+      answerGrid.dataset.locked = "true";
+      const correct = answer === currentQuestion.answer;
+      const stats = practiceStats[activeLanguage];
+      stats.answered += 1;
+      if (correct) {
+        stats.score += 1;
+        stats.streak += 1;
+        practiceFeedback.textContent = "答對了。跟著播放再唸一次，把嘴巴也練到。";
+        button.classList.add("correct");
+        speak(currentQuestion.speakText);
+      } else {
+        stats.streak = 0;
+        practiceFeedback.textContent = `差一點，正確答案是：${currentQuestion.answer}`;
+        button.classList.add("wrong");
+        [...answerGrid.querySelectorAll(".answer-btn")].forEach(item => {
+          if (item.dataset.answer === currentQuestion.answer) item.classList.add("correct");
+        });
+      }
+      updatePracticeStats();
     }
 
     function cycleStatus(item) {
@@ -924,6 +1194,8 @@
       renderNav();
       render();
       renderVocabulary();
+      answerGrid.dataset.locked = "false";
+      renderQuestion();
     }
 
     function render() {
@@ -1031,6 +1303,32 @@
     vocabTable.addEventListener("click", event => {
       const target = event.target.closest("button");
       if (target && target.dataset.vocabSpeak) speak(target.dataset.vocabSpeak);
+    });
+
+    answerGrid.addEventListener("click", event => {
+      const button = event.target.closest(".answer-btn");
+      if (!button) return;
+      chooseAnswer(button.dataset.answer, button);
+    });
+
+    practiceSpeak.addEventListener("click", () => {
+      if (currentQuestion) speak(currentQuestion.speakText);
+    });
+
+    nextQuestion.addEventListener("click", () => {
+      answerGrid.dataset.locked = "false";
+      renderQuestion();
+    });
+
+    resetPractice.addEventListener("click", () => {
+      practiceStats[activeLanguage] = { score: 0, streak: 0, answered: 0 };
+      answerGrid.dataset.locked = "false";
+      renderQuestion();
+    });
+
+    speedInput.addEventListener("input", () => {
+      speechRate = Number(speedInput.value);
+      speedValue.textContent = `${speechRate.toFixed(2)}x`;
     });
 
     searchInput.addEventListener("input", render);
