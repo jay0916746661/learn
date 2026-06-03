@@ -741,14 +741,14 @@
         </label>
       </div>
 
-      <section class="panel practice-panel" aria-label="練習題">
+      <section class="panel practice-panel" aria-label="考試練習">
         <div class="practice-main">
           <div class="practice-kicker">
-            <span id="practiceMode">聽力選擇</span>
+            <span id="practiceMode">考試題型</span>
             <button id="practiceSpeak" class="icon-btn speak-main" type="button" title="播放題目">▶ 播放</button>
           </div>
-          <h3 id="practiceQuestion" class="practice-question">準備練習</h3>
-          <p id="practicePrompt" class="practice-prompt">依照題目選出正確答案。</p>
+          <h3 id="practiceQuestion" class="practice-question">準備考題</h3>
+          <p id="practicePrompt" class="practice-prompt">選出最適合的答案。</p>
           <div id="answerGrid" class="answers"></div>
           <div id="practiceFeedback" class="practice-feedback"></div>
           <div class="practice-actions">
@@ -761,7 +761,7 @@
             <div class="score-box"><strong id="scoreText">0</strong><span>答對</span></div>
             <div class="score-box"><strong id="streakText">0</strong><span>連勝</span></div>
           </div>
-          <p class="practice-prompt">練習會輪流出現聽音選意思、看中文選外語、句型填空。答完會立刻給回饋。</p>
+          <p class="practice-prompt">考試題會輪流出現聽力理解、翻譯選擇、文法選擇、句子完成。這區和學習卡分開出題。</p>
         </aside>
       </section>
 
@@ -2194,6 +2194,37 @@
       ["購物", "receipt", "recibo", "收據"]
     ];
 
+    const examBanks = {
+      spanish: [
+        { mode: "聽力理解", question: "聽播放，選出最接近的中文意思。", prompt: "題目會播放一句西語。", speakText: "¿Dónde está el baño?", answer: "廁所在哪裡？", options: ["廁所在哪裡？", "這個多少錢？", "我想要一杯咖啡。", "我不懂西班牙文。"], explanation: "¿Dónde está...? 用來問「...在哪裡」。" },
+        { mode: "聽力理解", question: "聽播放，選出最接近的中文意思。", prompt: "題目會播放一句西語。", speakText: "Quisiera una mesa para dos.", answer: "我想要一張兩人桌。", options: ["我想要一張兩人桌。", "我有兩本書。", "請外帶。", "我七點起床。"], explanation: "Quisiera 是比 quiero 更禮貌的「我想要」。" },
+        { mode: "翻譯選擇", question: "「我來自台灣。」西語怎麼說？", prompt: "選出最自然的 A1 句子。", speakText: "Soy de Taiwán.", answer: "Soy de Taiwán.", options: ["Soy de Taiwán.", "Estoy Taiwán.", "Tengo Taiwán.", "Voy Taiwán."], explanation: "表示來自哪裡用 Soy de + 地方。" },
+        { mode: "翻譯選擇", question: "「我不喜歡等待。」西語怎麼說？", prompt: "注意 gustar 的否定。", speakText: "No me gusta esperar.", answer: "No me gusta esperar.", options: ["No me gusta esperar.", "No soy esperar.", "No tengo esperar.", "No está esperar."], explanation: "No me gusta + 動詞原形 = 我不喜歡做某事。" },
+        { mode: "文法選擇", question: "哪一句的冠詞正確？", prompt: "libro 是陽性名詞，casa 是陰性名詞。", speakText: "El libro es nuevo.", answer: "El libro es nuevo.", options: ["El libro es nuevo.", "La libro es nuevo.", "El casa es grande.", "Un pregunta es fácil."], explanation: "libro 搭 el/un；casa 和 pregunta 搭 la/una。" },
+        { mode: "文法選擇", question: "要表示「我在家」，哪一句正確？", prompt: "ser 表身分，estar 表位置/狀態。", speakText: "Estoy en casa.", answer: "Estoy en casa.", options: ["Estoy en casa.", "Soy en casa.", "Tengo en casa.", "Hay en casa."], explanation: "人在某處用 estar：Estoy en casa。" },
+        { mode: "句子完成", question: "Quiero ___ español.", prompt: "我想學西班牙文。", speakText: "Quiero aprender español.", answer: "aprender", options: ["aprender", "agua", "cerca", "tarjeta"], explanation: "Quiero + 動詞原形，aprender español = 學西班牙文。" },
+        { mode: "句子完成", question: "¿Puedo pagar con ___?", prompt: "我可以刷卡嗎？", speakText: "¿Puedo pagar con tarjeta?", answer: "tarjeta", options: ["tarjeta", "café", "lunes", "casa"], explanation: "pagar con tarjeta = 用卡付款。" },
+        { mode: "情境選擇", question: "你在餐廳想請服務生結帳，該說哪一句？", prompt: "選最適合情境的句子。", speakText: "La cuenta, por favor.", answer: "La cuenta, por favor.", options: ["La cuenta, por favor.", "Me levanto a las siete.", "Soy de Taiwán.", "Está lloviendo."], explanation: "La cuenta, por favor. 是「請結帳」。" },
+        { mode: "情境選擇", question: "對方說太快，你想請他慢一點，該說哪一句？", prompt: "選最適合情境的句子。", speakText: "Más despacio, por favor.", answer: "Más despacio, por favor.", options: ["Más despacio, por favor.", "Para llevar, por favor.", "Tengo una reserva.", "Hace calor hoy."], explanation: "Más despacio, por favor. = 請慢一點。" },
+        { mode: "方向理解", question: "Siga todo recto. 是什麼意思？", prompt: "旅行問路常用。", speakText: "Siga todo recto.", answer: "請一直直走。", options: ["請一直直走。", "請往左轉。", "車站很遠。", "我有訂位。"], explanation: "todo recto = 一直直走。" },
+        { mode: "時間理解", question: "Me levanto a las siete. 是什麼意思？", prompt: "注意 a las + 時間。", speakText: "Me levanto a las siete.", answer: "我七點起床。", options: ["我七點起床。", "我九點工作。", "我今天下雨。", "我有七本書。"], explanation: "Me levanto = 我起床；a las siete = 七點。" }
+      ],
+      japanese: [
+        { mode: "聽力理解", question: "聽播放，選出最接近的中文意思。", prompt: "題目會播放一句日語。", speakText: "これは本です。", answer: "這是書。", options: ["這是書。", "這不是水。", "廁所在哪裡？", "我喜歡音樂。"], explanation: "これは N です = 這是..." },
+        { mode: "聽力理解", question: "聽播放，選出最接近的中文意思。", prompt: "題目會播放一句日語。", speakText: "トイレはどこですか。", answer: "廁所在哪裡？", options: ["廁所在哪裡？", "這是什麼？", "請給我水。", "一起去吧。"], explanation: "N はどこですか = ...在哪裡？" },
+        { mode: "翻譯選擇", question: "「我是學生。」日語怎麼說？", prompt: "選出最自然的 N5 句子。", speakText: "私は学生です。", answer: "私は学生です。", options: ["私は学生です。", "私は学生ではありません。", "学生はどこですか。", "学生をください。"], explanation: "N です 表示「是...」。" },
+        { mode: "翻譯選擇", question: "「我喜歡音樂。」日語怎麼說？", prompt: "喜歡的對象用 が。", speakText: "私は音楽が好きです。", answer: "私は音楽が好きです。", options: ["私は音楽が好きです。", "私は音楽を好きです。", "私は音楽に好きです。", "私は音楽で好きです。"], explanation: "好きです 的對象用 が。" },
+        { mode: "文法選擇", question: "哪一句的助詞正確？", prompt: "表示「也」時用 も。", speakText: "私も学生です。", answer: "私も学生です。", options: ["私も学生です。", "私はも学生です。", "私がも学生です。", "私を学生です。"], explanation: "も 會取代 は/が 的位置。" },
+        { mode: "文法選擇", question: "人或動物存在時，應該用哪一句？", prompt: "あります / います 的區別。", speakText: "猫がいます。", answer: "猫がいます。", options: ["猫がいます。", "猫があります。", "猫をいます。", "猫であります。"], explanation: "人和動物用 います，物品/植物用 あります。" },
+        { mode: "句子完成", question: "水___ください。", prompt: "請給我水。", speakText: "水をください。", answer: "を", options: ["を", "に", "で", "へ"], explanation: "N をください = 請給我..." },
+        { mode: "句子完成", question: "学校___行きます。", prompt: "去學校。", speakText: "学校へ行きます。", answer: "へ", options: ["へ", "を", "が", "も"], explanation: "移動方向可用 へ，讀作 e。" },
+        { mode: "情境選擇", question: "買東西時想說「請給我這個」，該選哪一句？", prompt: "選最適合情境的句子。", speakText: "これをください。", answer: "これをください。", options: ["これをください。", "これはどこですか。", "これも学生です。", "これがいます。"], explanation: "これをください = 請給我這個。" },
+        { mode: "情境選擇", question: "邀請朋友一起去，該選哪一句？", prompt: "選最適合情境的句子。", speakText: "一緒に行きましょう。", answer: "一緒に行きましょう。", options: ["一緒に行きましょう。", "水をください。", "猫がいます。", "これは本です。"], explanation: "〜ましょう 表示提議或邀請「一起...吧」。" },
+        { mode: "否定理解", question: "これは水ではありません。是什麼意思？", prompt: "ではありません 是否定。", speakText: "これは水ではありません。", answer: "這不是水。", options: ["這不是水。", "這是水。", "請給我水。", "有水。"], explanation: "N ではありません = 不是..." },
+        { mode: "形容詞理解", question: "今日は暑いです。是什麼意思？", prompt: "暑い = 熱。", speakText: "今日は暑いです。", answer: "今天很熱。", options: ["今天很熱。", "今天不冷。", "昨天很熱。", "這本書很有趣。"], explanation: "い形容詞可直接接 です。" }
+      ]
+    };
+
     const cards = document.querySelector("#cards");
     const sectionNav = document.querySelector("#sectionNav");
     const searchInput = document.querySelector("#searchInput");
@@ -2327,41 +2358,11 @@
     }
 
     function makeQuestion() {
-      const lessons = activeLessons();
-      const item = shuffle(lessons)[0];
-      const example = firstExample(item);
-      const type = Math.floor(Math.random() * 3);
-      const distractors = sampleLessons(item.title, 3);
-
-      if (type === 0) {
-        return {
-          mode: "聽力選擇",
-          question: "聽播放，選出正確中文意思",
-          prompt: "先按播放，再選這句話的中文意思。",
-          speakText: example[0],
-          answer: example[1],
-          options: shuffle([example[1], ...distractors.map(other => firstExample(other)[1])])
-        };
-      }
-
-      if (type === 1) {
-        return {
-          mode: "中文選外語",
-          question: example[1],
-          prompt: "看到中文，選出對應的外語句子。",
-          speakText: example[0],
-          answer: example[0],
-          options: shuffle([example[0], ...distractors.map(other => firstExample(other)[0])])
-        };
-      }
-
+      const bank = examBanks[activeLanguage];
+      const question = shuffle(bank)[0];
       return {
-        mode: "句型填空",
-        question: `「${item.meaning}」要用哪個句型？`,
-        prompt: item.pattern,
-        speakText: item.title,
-        answer: item.title,
-        options: shuffle([item.title, ...distractors.map(other => other.title)])
+        ...question,
+        options: shuffle(question.options)
       };
     }
 
@@ -2393,12 +2394,12 @@
       if (correct) {
         stats.score += 1;
         stats.streak += 1;
-        practiceFeedback.textContent = "答對了。跟著播放再唸一次，把嘴巴也練到。";
+        practiceFeedback.textContent = `答對了。${currentQuestion.explanation}`;
         button.classList.add("correct");
         speak(currentQuestion.speakText);
       } else {
         stats.streak = 0;
-        practiceFeedback.textContent = `差一點，正確答案是：${currentQuestion.answer}`;
+        practiceFeedback.textContent = `差一點，正確答案是：${currentQuestion.answer}。${currentQuestion.explanation}`;
         button.classList.add("wrong");
         [...answerGrid.querySelectorAll(".answer-btn")].forEach(item => {
           if (item.dataset.answer === currentQuestion.answer) item.classList.add("correct");
