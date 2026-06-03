@@ -86,6 +86,28 @@
       background: rgba(255, 255, 255, 0.06);
     }
 
+    .language-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .language-switch button {
+      min-height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.72);
+      cursor: pointer;
+    }
+
+    .language-switch button.active {
+      border-color: #f4c95d;
+      background: #f4c95d;
+      color: #24313d;
+      font-weight: 750;
+    }
+
     .progress-top {
       display: flex;
       justify-content: space-between;
@@ -529,9 +551,14 @@
       <div class="brand">
         <div class="mark" aria-hidden="true"></div>
         <div>
-          <h1>西語從零開始</h1>
-          <p>A1 survival panel</p>
+          <h1 id="brandTitle">西語從零開始</h1>
+          <p id="brandSubtitle">A1 survival panel</p>
         </div>
+      </div>
+
+      <div class="language-switch" aria-label="選擇語言">
+        <button class="active" data-language="spanish">西語</button>
+        <button data-language="japanese">日語</button>
       </div>
 
       <section class="progress-card" aria-label="學習進度">
@@ -542,7 +569,7 @@
         <div class="bar"><span id="progressBar"></span></div>
       </section>
 
-      <nav class="nav" aria-label="章節">
+      <nav id="sectionNav" class="nav" aria-label="章節">
         <button class="active" data-section="all">全部句型 <small>24</small></button>
         <button data-section="問候">問候 <small>4</small></button>
         <button data-section="自我介紹">自我介紹 <small>5</small></button>
@@ -552,20 +579,20 @@
       </nav>
 
       <section class="daily">
-        <h2>今日節奏</h2>
-        <p>3 個句型、10 個單字、每句跟讀 3 次。播放後立刻自己模仿，先求敢講，再修正。</p>
+        <h2 id="dailyTitle">今日節奏</h2>
+        <p id="dailyText">3 個句型、10 個單字、每句跟讀 3 次。播放後立刻自己模仿，先求敢講，再修正。</p>
       </section>
     </aside>
 
     <main>
       <section class="hero">
         <div>
-          <h2>從第一句西語開始，做成能聽、能跟讀、能追蹤的面板。</h2>
-          <p>每張卡都有西語、近似羅馬拼音發音、中文意思、句型接續與兩個例句。播放鍵會呼叫瀏覽器的西班牙語語音。</p>
+          <h2 id="heroTitle">從第一句西語開始，做成能聽、能跟讀、能追蹤的面板。</h2>
+          <p id="heroText">每張卡都有西語、近似羅馬拼音發音、中文意思、句型接續與兩個例句。播放鍵會呼叫瀏覽器的西班牙語語音。</p>
         </div>
         <div class="meter">
-          <strong>A1</strong>
-          <span>先完成生存句、名詞句、日常動作，再進到動詞變化與時態。</span>
+          <strong id="meterLevel">A1</strong>
+          <span id="meterText">先完成生存句、名詞句、日常動作，再進到動詞變化與時態。</span>
         </div>
       </section>
 
@@ -583,8 +610,8 @@
 
       <section class="planner">
         <div class="panel">
-          <h3>前 8 天安排</h3>
-          <div class="schedule">
+          <h3 id="scheduleTitle">前 8 天安排</h3>
+          <div id="scheduleGrid" class="schedule">
             <div class="day"><strong>Day 1</strong><span>Hola、Gracias、Por favor</span></div>
             <div class="day"><strong>Day 2</strong><span>Me llamo、Soy、Soy de</span></div>
             <div class="day"><strong>Day 3</strong><span>Esto es、No es、Es?</span></div>
@@ -597,8 +624,8 @@
         </div>
 
         <div class="panel">
-          <h3>每日練習</h3>
-          <div class="drill">
+          <h3 id="drillTitle">每日練習</h3>
+          <div id="drillList" class="drill">
             <div class="drill-row"><span>播放例句</span><strong>3 輪</strong></div>
             <div class="drill-row"><span>遮住中文翻譯</span><strong>2 分鐘</strong></div>
             <div class="drill-row"><span>替換名詞造句</span><strong>5 句</strong></div>
@@ -607,7 +634,7 @@
         </div>
       </section>
 
-      <section class="panel vocabulary-panel">
+      <section id="vocabularyPanel" class="panel vocabulary-panel">
         <div class="vocab-head">
           <div>
             <h3>CH3 房屋單字</h3>
@@ -621,7 +648,7 @@
   </div>
 
   <script>
-    const lessons = [
+    const spanishLessons = [
       { section: "問候", title: "Hola", meaning: "你好", pronunciation: "歐-la", pattern: "Hola", examples: [["Hola, Juan.", "你好，Juan。"], ["Hola, buenos días.", "你好，早安。"]], status: "待學" },
       { section: "問候", title: "Gracias", meaning: "謝謝", pronunciation: "格拉-thi-as / 格拉-si-as", pattern: "Gracias + por + N/V", examples: [["Gracias por tu ayuda.", "謝謝你的幫忙。"], ["Muchas gracias.", "非常謝謝。"]], status: "待學" },
       { section: "問候", title: "Por favor", meaning: "請 / 麻煩你", pronunciation: "波爾 fa-沃爾", pattern: "請求句 + por favor", examples: [["Un café, por favor.", "請給我一杯咖啡。"], ["Ayúdame, por favor.", "請幫我。"]], status: "待學" },
@@ -646,6 +673,33 @@
       { section: "旅行生存", title: "No entiendo", meaning: "我聽不懂 / 我不懂", pronunciation: "no en-tyen-do", pattern: "No entiendo + 內容", examples: [["No entiendo.", "我不懂。"], ["No entiendo español.", "我不懂西班牙文。"]], status: "待學" },
       { section: "旅行生存", title: "Más despacio", meaning: "請慢一點", pronunciation: "mas des-pa-thio / des-pa-sio", pattern: "Más despacio, por favor", examples: [["Más despacio, por favor.", "請說慢一點。"], ["Habla más despacio, por favor.", "請你說慢一點。"]], status: "待學" },
       { section: "旅行生存", title: "La cuenta, por favor", meaning: "請結帳", pronunciation: "la kwen-ta por fa-vor", pattern: "La cuenta, por favor", examples: [["La cuenta, por favor.", "請結帳。"], ["Camarero, la cuenta, por favor.", "服務生，請結帳。"]], status: "待學" }
+    ];
+
+    const japaneseLessons = [
+      { section: "名詞句", title: "〜です", meaning: "是...", pronunciation: "desu", pattern: "N + です", examples: [["私は学生です。", "我是學生。"], ["これは本です。", "這是書。"]], status: "待學" },
+      { section: "名詞句", title: "〜ではありません", meaning: "不是...", pronunciation: "dewa arimasen", pattern: "N + ではありません", examples: [["私は先生ではありません。", "我不是老師。"], ["これは水ではありません。", "這不是水。"]], status: "待學" },
+      { section: "名詞句", title: "〜じゃありません", meaning: "不是...", pronunciation: "ja arimasen", pattern: "N + じゃありません", examples: [["私は日本人じゃありません。", "我不是日本人。"], ["これはペンじゃありません。", "這不是筆。"]], status: "待學" },
+      { section: "疑問句", title: "〜ですか", meaning: "是...嗎？", pronunciation: "desu ka", pattern: "句子 + か", examples: [["これは本ですか。", "這是書嗎？"], ["田中さんは先生ですか。", "田中先生是老師嗎？"]], status: "待學" },
+      { section: "基本回應", title: "はい / いいえ", meaning: "是 / 不是", pronunciation: "hai / iie", pattern: "はい / いいえ + 句子", examples: [["はい、学生です。", "是，我是學生。"], ["いいえ、先生ではありません。", "不是，我不是老師。"]], status: "待學" },
+      { section: "指示詞", title: "これ / それ / あれ", meaning: "這個 / 那個 / 那個", pronunciation: "kore / sore / are", pattern: "これ/それ/あれ + は + Nです", examples: [["これは水です。", "這是水。"], ["それは辞書です。", "那是字典。"]], status: "待學" },
+      { section: "指示詞", title: "この / その / あの", meaning: "這個... / 那個...", pronunciation: "kono / sono / ano", pattern: "この/その/あの + N", examples: [["この本は新しいです。", "這本書是新的。"], ["あの人は先生です。", "那個人是老師。"]], status: "待學" },
+      { section: "指示詞", title: "どれ", meaning: "哪一個", pronunciation: "dore", pattern: "どれ + ですか", examples: [["あなたの本はどれですか。", "你的書是哪一本？"], ["田中さんのかばんはどれですか。", "田中的包包是哪一個？"]], status: "待學" },
+      { section: "指示詞", title: "どの", meaning: "哪個...", pronunciation: "dono", pattern: "どの + N", examples: [["どの本が好きですか。", "你喜歡哪本書？"], ["どの人が先生ですか。", "哪個人是老師？"]], status: "待學" },
+      { section: "助詞", title: "〜の〜", meaning: "的 / 所屬 / 關係", pronunciation: "no", pattern: "N1 + の + N2", examples: [["私の名前はリンです。", "我的名字是 Lin。"], ["日本語の本です。", "是日文書。"]], status: "待學" },
+      { section: "助詞", title: "〜も", meaning: "也", pronunciation: "mo", pattern: "N + も", examples: [["私も学生です。", "我也是學生。"], ["これも水です。", "這也是水。"]], status: "待學" },
+      { section: "疑問句", title: "〜はどこですか", meaning: "...在哪裡？", pronunciation: "wa doko desu ka", pattern: "N + は + どこですか", examples: [["トイレはどこですか。", "廁所在哪裡？"], ["駅はどこですか。", "車站在哪裡？"]], status: "待學" },
+      { section: "疑問句", title: "〜は何ですか", meaning: "...是什麼？", pronunciation: "wa nan desu ka", pattern: "N + は + 何ですか", examples: [["これは何ですか。", "這是什麼？"], ["あなたの仕事は何ですか。", "你的工作是什麼？"]], status: "待學" },
+      { section: "存在句", title: "〜があります", meaning: "有某物 / 有植物", pronunciation: "ga arimasu", pattern: "N + があります", examples: [["机があります。", "有桌子。"], ["公園があります。", "有公園。"]], status: "待學" },
+      { section: "存在句", title: "〜がいます", meaning: "有人 / 有動物", pronunciation: "ga imasu", pattern: "N + がいます", examples: [["猫がいます。", "有貓。"], ["教室に学生がいます。", "教室裡有學生。"]], status: "待學" },
+      { section: "請求", title: "〜をください", meaning: "請給我...", pronunciation: "o kudasai", pattern: "N + をください", examples: [["水をください。", "請給我水。"], ["これをください。", "請給我這個。"]], status: "待學" },
+      { section: "喜好能力", title: "〜が好きです", meaning: "喜歡...", pronunciation: "ga suki desu", pattern: "N + が好きです", examples: [["私は音楽が好きです。", "我喜歡音樂。"], ["田中さんは猫が好きです。", "田中喜歡貓。"]], status: "待學" },
+      { section: "喜好能力", title: "〜がわかります", meaning: "懂 / 明白...", pronunciation: "ga wakarimasu", pattern: "N + がわかります", examples: [["日本語が少しわかります。", "我懂一點日文。"], ["この言葉がわかります。", "我懂這個詞。"]], status: "待學" },
+      { section: "動詞ます形", title: "〜を食べます", meaning: "吃...", pronunciation: "o tabemasu", pattern: "N + を + 食べます", examples: [["パンを食べます。", "吃麵包。"], ["昼ご飯を食べます。", "吃午餐。"]], status: "待學" },
+      { section: "動詞ます形", title: "〜へ行きます", meaning: "去...", pronunciation: "e ikimasu", pattern: "場所 + へ + 行きます", examples: [["学校へ行きます。", "去學校。"], ["日本へ行きます。", "去日本。"]], status: "待學" },
+      { section: "形容詞", title: "い形容詞 + です", meaning: "很...", pronunciation: "i keiyoushi desu", pattern: "い形容詞 + です", examples: [["この本はおもしろいです。", "這本書很有趣。"], ["今日は暑いです。", "今天很熱。"]], status: "待學" },
+      { section: "形容詞", title: "な形容詞 + です", meaning: "很...", pronunciation: "na keiyoushi desu", pattern: "な形容詞 + です", examples: [["この町は静かです。", "這個城市很安靜。"], ["この部屋はきれいです。", "這個房間很乾淨。"]], status: "待學" },
+      { section: "邀請請求", title: "〜ましょう", meaning: "一起...吧", pronunciation: "mashou", pattern: "Vます去ます + ましょう", examples: [["一緒に行きましょう。", "一起去吧。"], ["日本語を勉強しましょう。", "一起學日文吧。"]], status: "待學" },
+      { section: "邀請請求", title: "〜てください", meaning: "請做...", pronunciation: "te kudasai", pattern: "Vて形 + ください", examples: [["名前を書いてください。", "請寫名字。"], ["少し待ってください。", "請稍等一下。"]], status: "待學" }
     ];
 
     const vocabulary = [
@@ -701,13 +755,93 @@
     ];
 
     const cards = document.querySelector("#cards");
+    const sectionNav = document.querySelector("#sectionNav");
     const searchInput = document.querySelector("#searchInput");
     const vocabSearch = document.querySelector("#vocabSearch");
     const vocabTable = document.querySelector("#vocabTable");
+    const vocabularyPanel = document.querySelector("#vocabularyPanel");
     const progressText = document.querySelector("#progressText");
     const progressBar = document.querySelector("#progressBar");
+    const brandTitle = document.querySelector("#brandTitle");
+    const brandSubtitle = document.querySelector("#brandSubtitle");
+    const dailyTitle = document.querySelector("#dailyTitle");
+    const dailyText = document.querySelector("#dailyText");
+    const heroTitle = document.querySelector("#heroTitle");
+    const heroText = document.querySelector("#heroText");
+    const meterLevel = document.querySelector("#meterLevel");
+    const meterText = document.querySelector("#meterText");
+    const scheduleTitle = document.querySelector("#scheduleTitle");
+    const scheduleGrid = document.querySelector("#scheduleGrid");
+    const drillTitle = document.querySelector("#drillTitle");
+    const drillList = document.querySelector("#drillList");
+    let activeLanguage = "spanish";
     let currentSection = "all";
     let currentFilter = "all";
+
+    const languageConfig = {
+      spanish: {
+        lessons: spanishLessons,
+        speechLang: "es-ES",
+        title: "西語從零開始",
+        subtitle: "A1 survival panel",
+        heroTitle: "從第一句西語開始，做成能聽、能跟讀、能追蹤的面板。",
+        heroText: "每張卡都有西語、近似羅馬拼音發音、中文意思、句型接續與兩個例句。播放鍵會呼叫瀏覽器的西班牙語語音。",
+        level: "A1",
+        meterText: "先完成生存句、名詞句、日常動作，再進到動詞變化與時態。",
+        dailyTitle: "今日節奏",
+        dailyText: "3 個句型、10 個單字、每句跟讀 3 次。播放後立刻自己模仿，先求敢講，再修正。",
+        searchPlaceholder: "搜尋：hola、我叫、餐廳...",
+        scheduleTitle: "前 8 天安排",
+        schedule: [
+          ["Day 1", "Hola、Gracias、Por favor"],
+          ["Day 2", "Me llamo、Soy、Soy de"],
+          ["Day 3", "Esto es、No es、Es?"],
+          ["Day 4", "Tengo、Quiero、Necesito"],
+          ["Day 5", "¿Dónde está?、¿Cuánto cuesta?"],
+          ["Day 6", "Como、Bebo、Voy"],
+          ["Day 7", "20 句口說複習"],
+          ["Day 8", "錄 60 秒自我介紹"]
+        ],
+        drillTitle: "每日練習",
+        drills: [["播放例句", "3 輪"], ["遮住中文翻譯", "2 分鐘"], ["替換名詞造句", "5 句"], ["錄音回聽", "1 次"]],
+        showVocabulary: true
+      },
+      japanese: {
+        lessons: japaneseLessons,
+        speechLang: "ja-JP",
+        title: "日語從零開始",
+        subtitle: "N5 grammar panel",
+        heroTitle: "從第一個 N5 文法開始，做成能聽、能跟讀、能追蹤的面板。",
+        heroText: "每張卡都有日語文法、羅馬拼音輔助、中文意思、接續與兩個例句。播放鍵會呼叫瀏覽器的日語語音。",
+        level: "N5",
+        meterText: "先掌握です、指示詞、助詞、存在句，再進到動詞ます形與形容詞。",
+        dailyTitle: "今日節奏",
+        dailyText: "3 個文法、10 個單字、每句跟讀 3 次。先熟悉句型，再自己替換名詞造句。",
+        searchPlaceholder: "搜尋：です、どこ、喜歡...",
+        scheduleTitle: "前 8 天安排",
+        schedule: [
+          ["Day 1", "〜です、否定、疑問"],
+          ["Day 2", "これ、それ、あれ"],
+          ["Day 3", "の、も、どれ、どの"],
+          ["Day 4", "何、誰、どこ"],
+          ["Day 5", "あります、います"],
+          ["Day 6", "好き、わかります、ください"],
+          ["Day 7", "動詞ます形"],
+          ["Day 8", "形容詞與邀請句"]
+        ],
+        drillTitle: "每日練習",
+        drills: [["播放例句", "3 輪"], ["遮住中文翻譯", "2 分鐘"], ["自己造句", "5 句"], ["複習狀態更新", "1 次"]],
+        showVocabulary: false
+      }
+    };
+
+    function activeConfig() {
+      return languageConfig[activeLanguage];
+    }
+
+    function activeLessons() {
+      return activeConfig().lessons;
+    }
 
     function speak(text) {
       if (!("speechSynthesis" in window)) {
@@ -716,7 +850,7 @@
       }
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "es-ES";
+      utterance.lang = activeConfig().speechLang;
       utterance.rate = 0.82;
       utterance.pitch = 1;
       window.speechSynthesis.speak(utterance);
@@ -730,6 +864,7 @@
     }
 
     function updateProgress() {
+      const lessons = activeLessons();
       const done = lessons.filter(item => item.status === "熟練").length;
       progressText.textContent = `${done} / ${lessons.length}`;
       progressBar.style.width = `${Math.max(8, done / lessons.length * 100)}%`;
@@ -737,7 +872,7 @@
 
     function filteredLessons() {
       const q = searchInput.value.trim().toLowerCase();
-      return lessons.filter(item => {
+      return activeLessons().filter(item => {
         const sectionMatch = currentSection === "all" || item.section === currentSection;
         const statusMatch = currentFilter === "all" || item.status === currentFilter;
         const text = [
@@ -746,6 +881,49 @@
         ].join(" ").toLowerCase();
         return sectionMatch && statusMatch && text.includes(q);
       });
+    }
+
+    function renderNav() {
+      const lessons = activeLessons();
+      const counts = lessons.reduce((memo, item) => {
+        memo[item.section] = (memo[item.section] || 0) + 1;
+        return memo;
+      }, {});
+
+      sectionNav.innerHTML = [
+        `<button class="${currentSection === "all" ? "active" : ""}" data-section="all">全部 <small>${lessons.length}</small></button>`,
+        ...Object.entries(counts).map(([section, count]) => (
+          `<button class="${currentSection === section ? "active" : ""}" data-section="${section}">${section} <small>${count}</small></button>`
+        ))
+      ].join("");
+    }
+
+    function renderLanguage() {
+      const config = activeConfig();
+      brandTitle.textContent = config.title;
+      brandSubtitle.textContent = config.subtitle;
+      dailyTitle.textContent = config.dailyTitle;
+      dailyText.textContent = config.dailyText;
+      heroTitle.textContent = config.heroTitle;
+      heroText.textContent = config.heroText;
+      meterLevel.textContent = config.level;
+      meterText.textContent = config.meterText;
+      searchInput.placeholder = config.searchPlaceholder;
+      scheduleTitle.textContent = config.scheduleTitle;
+      drillTitle.textContent = config.drillTitle;
+      scheduleGrid.innerHTML = config.schedule.map(([day, text]) => (
+        `<div class="day"><strong>${day}</strong><span>${text}</span></div>`
+      )).join("");
+      drillList.innerHTML = config.drills.map(([task, amount]) => (
+        `<div class="drill-row"><span>${task}</span><strong>${amount}</strong></div>`
+      )).join("");
+      vocabularyPanel.style.display = config.showVocabulary ? "" : "none";
+      document.querySelectorAll(".language-switch button").forEach(button => {
+        button.classList.toggle("active", button.dataset.language === activeLanguage);
+      });
+      renderNav();
+      render();
+      renderVocabulary();
     }
 
     function render() {
@@ -775,7 +953,7 @@
                 <div class="es">${example[0]}</div>
                 <div class="zh">${example[1]}</div>
                 <div class="actions">
-                  <button class="icon-btn speak-main" data-action="speak" data-text="${example[0]}" title="播放西語例句">▶ 播放</button>
+                  <button class="icon-btn speak-main" data-action="speak" data-text="${example[0]}" title="播放例句">▶ 播放</button>
                   <button class="icon-btn" data-action="speak" data-text="${item.title}" title="只播放句型">◎</button>
                 </div>
               </div>
@@ -806,12 +984,24 @@
       }
     }
 
-    document.querySelectorAll(".nav button").forEach(button => {
+    sectionNav.addEventListener("click", event => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      currentSection = button.dataset.section;
+      renderNav();
+      render();
+    });
+
+    document.querySelectorAll(".language-switch button").forEach(button => {
       button.addEventListener("click", () => {
-        document.querySelectorAll(".nav button").forEach(item => item.classList.remove("active"));
-        button.classList.add("active");
-        currentSection = button.dataset.section;
-        render();
+        activeLanguage = button.dataset.language;
+        currentSection = "all";
+        currentFilter = "all";
+        searchInput.value = "";
+        document.querySelectorAll(".chip").forEach(item => {
+          item.classList.toggle("active", item.dataset.filter === "all");
+        });
+        renderLanguage();
       });
     });
 
@@ -833,7 +1023,7 @@
       }
 
       if (target.dataset.action === "status") {
-        const item = lessons.find(lesson => lesson.title === target.dataset.title);
+        const item = activeLessons().find(lesson => lesson.title === target.dataset.title);
         cycleStatus(item);
       }
     });
@@ -845,8 +1035,7 @@
 
     searchInput.addEventListener("input", render);
     vocabSearch.addEventListener("input", renderVocabulary);
-    render();
-    renderVocabulary();
+    renderLanguage();
   </script>
 </body>
 </html>
