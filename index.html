@@ -909,6 +909,34 @@
           </div>
         </div>
       </section>
+
+      <section id="speedMasterTools" class="panel book-tools">
+        <div class="vocab-head">
+          <div>
+            <h3>N5 文法 Speed Master 搭配</h3>
+            <p class="meaning">PDF 是掃描型，公開頁不內建題本內容。你可以把自己整理的題目貼上，匯入後會加入日語考試題庫。</p>
+          </div>
+          <div class="practice-actions">
+            <button id="loadSampleSpeedQuestions" class="chip" type="button">載入示範</button>
+            <button id="clearSpeedQuestions" class="chip" type="button">清除題本題庫</button>
+          </div>
+        </div>
+        <div class="book-grid">
+          <div class="book-import">
+            <textarea id="speedImportText" placeholder="貼上 CSV，每行格式：題型,題目,提示,語音,答案,選項,解說&#10;選項用 | 分隔，例如：文法選擇,水___ください。,請給我水。,水をください。,を,を|に|で|へ,Nをください 表示請給我..."></textarea>
+            <div class="practice-actions">
+              <button id="importSpeedQuestions" class="chip active" type="button">匯入題目</button>
+              <button id="useSpeedQuestion" class="chip" type="button">出題本題</button>
+            </div>
+            <p id="speedImportStatus" class="meaning">尚未匯入題本題目。可先按「載入示範」確認格式。</p>
+          </div>
+          <div class="book-card">
+            <span class="tag">匯入格式</span>
+            <div class="book-word">題型, 題目, 提示, 語音, 答案, 選項, 解說</div>
+            <div class="book-meaning">匯入後會存在這台裝置，並和日語考試模式整合。</div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -2350,6 +2378,13 @@
     const bookRange = document.querySelector("#bookRange");
     const bookQuestion = document.querySelector("#bookQuestion");
     const bookAnswer = document.querySelector("#bookAnswer");
+    const speedMasterTools = document.querySelector("#speedMasterTools");
+    const speedImportText = document.querySelector("#speedImportText");
+    const importSpeedQuestions = document.querySelector("#importSpeedQuestions");
+    const loadSampleSpeedQuestions = document.querySelector("#loadSampleSpeedQuestions");
+    const clearSpeedQuestions = document.querySelector("#clearSpeedQuestions");
+    const useSpeedQuestion = document.querySelector("#useSpeedQuestion");
+    const speedImportStatus = document.querySelector("#speedImportStatus");
     const speedInput = document.querySelector("#speedInput");
     const speedValue = document.querySelector("#speedValue");
     const practiceMode = document.querySelector("#practiceMode");
@@ -2382,6 +2417,7 @@
     let speechRate = Number(speedInput.value);
     let currentQuestion = null;
     let importedBookWords = [];
+    let importedSpeedQuestions = [];
     let activeBookRange = "all";
     let currentBookWord = null;
     let practiceStats = {
@@ -2575,8 +2611,53 @@
       nextImportedWord();
     }
 
+    function parseSpeedQuestions(text) {
+      return text.split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(parseCsvLine)
+        .filter(cells => cells.length >= 7 && cells[0] !== "題型")
+        .map(cells => ({
+          mode: cells[0],
+          question: cells[1],
+          prompt: cells[2],
+          speakText: cells[3],
+          answer: cells[4],
+          options: cells[5].split("|").map(item => item.trim()).filter(Boolean),
+          explanation: cells[6]
+        }))
+        .filter(item => item.question && item.answer && item.options.length >= 2);
+    }
+
+    function saveSpeedQuestions() {
+      localStorage.setItem("speedMasterQuestions", JSON.stringify(importedSpeedQuestions));
+    }
+
+    function loadSpeedQuestions() {
+      try {
+        importedSpeedQuestions = JSON.parse(localStorage.getItem("speedMasterQuestions") || "[]");
+      } catch {
+        importedSpeedQuestions = [];
+      }
+    }
+
+    function renderSpeedStatus() {
+      speedImportStatus.textContent = importedSpeedQuestions.length
+        ? `已匯入 ${importedSpeedQuestions.length} 題。日語考試會混合這些題目出題。`
+        : "尚未匯入題本題目。可先按「載入示範」確認格式。";
+    }
+
+    function importSpeedFromText(text) {
+      importedSpeedQuestions = parseSpeedQuestions(text);
+      saveSpeedQuestions();
+      renderSpeedStatus();
+      if (activeLanguage === "japanese") renderQuestion();
+    }
+
     function makeQuestion() {
-      const bank = examBanks[activeLanguage];
+      const bank = activeLanguage === "japanese"
+        ? [...examBanks.japanese, ...importedSpeedQuestions]
+        : examBanks[activeLanguage];
       const question = shuffle(bank)[0];
       return {
         ...question,
@@ -2689,6 +2770,7 @@
       )).join("");
       vocabularyPanel.style.display = config.showVocabulary ? "" : "none";
       bookTools.style.display = activeLanguage === "spanish" ? "" : "none";
+      speedMasterTools.style.display = activeLanguage === "japanese" ? "" : "none";
       document.querySelectorAll(".language-switch button").forEach(button => {
         button.classList.toggle("active", button.dataset.language === activeLanguage);
       });
@@ -2696,6 +2778,7 @@
       render();
       renderVocabulary();
       renderBookStatus();
+      renderSpeedStatus();
       if (activeLanguage === "spanish") nextImportedWord();
       answerGrid.dataset.locked = "false";
       renderQuestion();
@@ -2874,9 +2957,47 @@
       nextImportedWord();
     });
 
+    importSpeedQuestions.addEventListener("click", () => {
+      importSpeedFromText(speedImportText.value);
+    });
+
+    loadSampleSpeedQuestions.addEventListener("click", () => {
+      speedImportText.value = [
+        "題型,題目,提示,語音,答案,選項,解說",
+        "文法選擇,水___ください。,請給我水。,水をください。,を,を|に|で|へ,Nをください 表示請給我...",
+        "助詞選擇,学校___行きます。,去學校。,学校へ行きます。,へ,へ|を|が|も,移動方向可用へ。",
+        "翻譯選擇,「這不是書。」日語怎麼說？,選出正確否定句。,これは本ではありません。,これは本ではありません。,これは本です。|これは本ではありません。|本をください。|本があります。,Nではありません 表示不是..."
+      ].join("\\n");
+      importSpeedFromText(speedImportText.value);
+    });
+
+    clearSpeedQuestions.addEventListener("click", () => {
+      importedSpeedQuestions = [];
+      localStorage.removeItem("speedMasterQuestions");
+      speedImportText.value = "";
+      renderSpeedStatus();
+      if (activeLanguage === "japanese") renderQuestion();
+    });
+
+    useSpeedQuestion.addEventListener("click", () => {
+      if (!importedSpeedQuestions.length) return;
+      const question = shuffle(importedSpeedQuestions)[0];
+      currentQuestion = { ...question, options: shuffle(question.options) };
+      answerGrid.dataset.locked = "false";
+      practiceMode.textContent = currentQuestion.mode;
+      practiceQuestion.textContent = currentQuestion.question;
+      practicePrompt.textContent = currentQuestion.prompt;
+      practiceFeedback.textContent = "";
+      answerGrid.innerHTML = currentQuestion.options.map(option => (
+        `<button class="answer-btn" data-answer="${option}" type="button">${option}</button>`
+      )).join("");
+      updatePracticeStats();
+    });
+
     searchInput.addEventListener("input", render);
     vocabSearch.addEventListener("input", renderVocabulary);
     loadBookWords();
+    loadSpeedQuestions();
     renderLanguage();
   </script>
 </body>
