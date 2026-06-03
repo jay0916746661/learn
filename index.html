@@ -655,6 +655,79 @@
       line-height: 1.45;
     }
 
+    .book-tools {
+      margin-top: 18px;
+    }
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 14px;
+    }
+
+    .book-import {
+      display: grid;
+      gap: 10px;
+    }
+
+    .book-import textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      line-height: 1.5;
+      outline: none;
+    }
+
+    .book-card {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(36, 49, 61, 0.08);
+    }
+
+    .book-word {
+      font-size: 28px;
+      line-height: 1.15;
+      font-weight: 800;
+      color: var(--teal);
+      letter-spacing: 0;
+    }
+
+    .book-meaning {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .chapter-pill {
+      min-height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chapter-pill.active {
+      border-color: var(--teal);
+      background: rgba(20, 108, 101, 0.1);
+      color: var(--teal);
+      font-weight: 750;
+    }
+
     @media (max-width: 1120px) {
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero { grid-template-columns: 1fr; }
@@ -668,6 +741,8 @@
       .grid, .schedule { grid-template-columns: 1fr; }
       .practice-panel { grid-template-columns: 1fr; }
       .answers { grid-template-columns: 1fr; }
+      .book-grid { grid-template-columns: 1fr; }
+      .chapter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .vocab-head { display: grid; }
       .vocab-row { grid-template-columns: 1fr; }
       .hero { padding: 22px; }
@@ -802,6 +877,37 @@
           <input id="vocabSearch" class="search" type="search" placeholder="搜尋：cocina、沙發、bright..." aria-label="搜尋房屋單字">
         </div>
         <div id="vocabTable" class="vocab-table"></div>
+      </section>
+
+      <section id="bookTools" class="panel book-tools">
+        <div class="vocab-head">
+          <div>
+            <h3>Pinhok 2000 核心單字搭配</h3>
+            <p class="meaning">公開頁不內建整本書內容。你可以把本機產生的私人 CSV 貼上，資料會存在這台手機/瀏覽器。</p>
+          </div>
+          <div class="practice-actions">
+            <button id="loadSampleBookWords" class="chip" type="button">載入示範</button>
+            <button id="clearBookWords" class="chip" type="button">清除匯入</button>
+          </div>
+        </div>
+        <div class="book-grid">
+          <div class="book-import">
+            <textarea id="bookImportText" placeholder="貼上 CSV，每行格式：序號,章節,中文,西語&#10;例如：1,1-50,我,yo"></textarea>
+            <div class="practice-actions">
+              <button id="importBookWords" class="chip active" type="button">匯入單字</button>
+              <button id="nextBookWord" class="chip" type="button">下一個單字</button>
+              <button id="revealBookWord" class="chip" type="button">顯示答案</button>
+              <button id="speakBookWord" class="icon-btn speak-main" type="button">▶ 播放</button>
+            </div>
+            <p id="bookImportStatus" class="meaning">尚未匯入私人單字。可先按「載入示範」體驗流程。</p>
+            <div id="chapterGrid" class="chapter-grid"></div>
+          </div>
+          <div class="book-card">
+            <span class="tag" id="bookRange">核心單字</span>
+            <div id="bookQuestion" class="book-word">匯入後開始</div>
+            <div id="bookAnswer" class="book-meaning">中文 / 西語會在這裡練習。</div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
@@ -2231,6 +2337,19 @@
     const vocabSearch = document.querySelector("#vocabSearch");
     const vocabTable = document.querySelector("#vocabTable");
     const vocabularyPanel = document.querySelector("#vocabularyPanel");
+    const bookTools = document.querySelector("#bookTools");
+    const bookImportText = document.querySelector("#bookImportText");
+    const importBookWords = document.querySelector("#importBookWords");
+    const loadSampleBookWords = document.querySelector("#loadSampleBookWords");
+    const clearBookWords = document.querySelector("#clearBookWords");
+    const nextBookWord = document.querySelector("#nextBookWord");
+    const revealBookWord = document.querySelector("#revealBookWord");
+    const speakBookWord = document.querySelector("#speakBookWord");
+    const bookImportStatus = document.querySelector("#bookImportStatus");
+    const chapterGrid = document.querySelector("#chapterGrid");
+    const bookRange = document.querySelector("#bookRange");
+    const bookQuestion = document.querySelector("#bookQuestion");
+    const bookAnswer = document.querySelector("#bookAnswer");
     const speedInput = document.querySelector("#speedInput");
     const speedValue = document.querySelector("#speedValue");
     const practiceMode = document.querySelector("#practiceMode");
@@ -2262,6 +2381,9 @@
     let currentFilter = "all";
     let speechRate = Number(speedInput.value);
     let currentQuestion = null;
+    let importedBookWords = [];
+    let activeBookRange = "all";
+    let currentBookWord = null;
     let practiceStats = {
       spanish: { score: 0, streak: 0, answered: 0 },
       japanese: { score: 0, streak: 0, answered: 0 }
@@ -2355,6 +2477,102 @@
 
     function firstExample(item) {
       return item.examples[0];
+    }
+
+    function parseCsvLine(line) {
+      const cells = [];
+      let cell = "";
+      let quoted = false;
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i];
+        const next = line[i + 1];
+        if (char === '"' && quoted && next === '"') {
+          cell += '"';
+          i += 1;
+        } else if (char === '"') {
+          quoted = !quoted;
+        } else if (char === "," && !quoted) {
+          cells.push(cell.trim());
+          cell = "";
+        } else {
+          cell += char;
+        }
+      }
+      cells.push(cell.trim());
+      return cells;
+    }
+
+    function parseBookWords(text) {
+      return text.split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(parseCsvLine)
+        .filter(cells => cells.length >= 4 && cells[0] !== "序號")
+        .map(cells => ({ index: cells[0], range: cells[1], zh: cells[2], es: cells[3] }))
+        .filter(item => item.zh && item.es);
+    }
+
+    function saveBookWords() {
+      localStorage.setItem("pinhokBookWords", JSON.stringify(importedBookWords));
+    }
+
+    function loadBookWords() {
+      try {
+        importedBookWords = JSON.parse(localStorage.getItem("pinhokBookWords") || "[]");
+      } catch {
+        importedBookWords = [];
+      }
+    }
+
+    function availableBookWords() {
+      if (activeBookRange === "all") return importedBookWords;
+      return importedBookWords.filter(item => item.range === activeBookRange);
+    }
+
+    function renderChapterGrid() {
+      const ranges = [...new Set(importedBookWords.map(item => item.range))];
+      chapterGrid.innerHTML = [
+        `<button class="chapter-pill ${activeBookRange === "all" ? "active" : ""}" data-range="all">全部</button>`,
+        ...ranges.map(range => (
+          `<button class="chapter-pill ${activeBookRange === range ? "active" : ""}" data-range="${range}">${range}</button>`
+        ))
+      ].join("");
+    }
+
+    function renderBookStatus() {
+      const count = importedBookWords.length;
+      bookImportStatus.textContent = count
+        ? `已匯入 ${count} 個核心單字。資料只存在這台裝置的瀏覽器。`
+        : "尚未匯入私人單字。可先按「載入示範」體驗流程。";
+      renderChapterGrid();
+    }
+
+    function nextImportedWord() {
+      const pool = availableBookWords();
+      if (!pool.length) {
+        currentBookWord = null;
+        bookRange.textContent = "尚無單字";
+        bookQuestion.textContent = "請先匯入";
+        bookAnswer.textContent = "把私人 CSV 貼上後，按「匯入單字」。";
+        return;
+      }
+      currentBookWord = shuffle(pool)[0];
+      bookRange.textContent = currentBookWord.range;
+      bookQuestion.textContent = currentBookWord.zh;
+      bookAnswer.textContent = "先想西語，再按「顯示答案」。";
+    }
+
+    function revealImportedWord() {
+      if (!currentBookWord) return;
+      bookAnswer.textContent = currentBookWord.es;
+    }
+
+    function importWordsFromText(text) {
+      importedBookWords = parseBookWords(text);
+      activeBookRange = "all";
+      saveBookWords();
+      renderBookStatus();
+      nextImportedWord();
     }
 
     function makeQuestion() {
@@ -2470,12 +2688,15 @@
         `<div class="drill-row"><span>${task}</span><strong>${amount}</strong></div>`
       )).join("");
       vocabularyPanel.style.display = config.showVocabulary ? "" : "none";
+      bookTools.style.display = activeLanguage === "spanish" ? "" : "none";
       document.querySelectorAll(".language-switch button").forEach(button => {
         button.classList.toggle("active", button.dataset.language === activeLanguage);
       });
       renderNav();
       render();
       renderVocabulary();
+      renderBookStatus();
+      if (activeLanguage === "spanish") nextImportedWord();
       answerGrid.dataset.locked = "false";
       renderQuestion();
     }
@@ -2613,8 +2834,49 @@
       speedValue.textContent = `${speechRate.toFixed(2)}x`;
     });
 
+    importBookWords.addEventListener("click", () => {
+      importWordsFromText(bookImportText.value);
+    });
+
+    loadSampleBookWords.addEventListener("click", () => {
+      bookImportText.value = [
+        "序號,章節,中文,西語",
+        "1,1-50,我,yo",
+        "2,1-50,你,tú",
+        "3,1-50,哪裡,dónde",
+        "4,51-100,0,cero",
+        "5,51-100,1,uno",
+        "6,51-100,我愛你,Te amo"
+      ].join("\\n");
+      importWordsFromText(bookImportText.value);
+    });
+
+    clearBookWords.addEventListener("click", () => {
+      importedBookWords = [];
+      activeBookRange = "all";
+      localStorage.removeItem("pinhokBookWords");
+      bookImportText.value = "";
+      renderBookStatus();
+      nextImportedWord();
+    });
+
+    nextBookWord.addEventListener("click", nextImportedWord);
+    revealBookWord.addEventListener("click", revealImportedWord);
+    speakBookWord.addEventListener("click", () => {
+      if (currentBookWord) speak(currentBookWord.es);
+    });
+
+    chapterGrid.addEventListener("click", event => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      activeBookRange = button.dataset.range;
+      renderChapterGrid();
+      nextImportedWord();
+    });
+
     searchInput.addEventListener("input", render);
     vocabSearch.addEventListener("input", renderVocabulary);
+    loadBookWords();
     renderLanguage();
   </script>
 </body>
