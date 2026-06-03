@@ -3,10 +3,1337 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=spanish-learning-panel.html">
-  <title>Spanish Learning Panel</title>
+  <title>西語從零開始｜A1 學習面板</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #6b7280;
+      --line: #d8dee8;
+      --soft: #f6f1e8;
+      --paper: #fffaf2;
+      --terra: #c84d34;
+      --terra-dark: #8f2f24;
+      --teal: #146c65;
+      --blue: #2d5d8b;
+      --gold: #d89524;
+      --green: #3f7d4a;
+      --shadow: 0 18px 50px rgba(31, 41, 51, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif;
+      background:
+        linear-gradient(120deg, rgba(200, 77, 52, 0.08), rgba(20, 108, 101, 0.08)),
+        var(--soft);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      padding: 28px 20px;
+      background: #24313d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, #f4c95d 0 32%, #c84d34 32% 66%, #146c65 66%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 13px;
+    }
+
+    .progress-card {
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .language-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .language-switch button {
+      min-height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.72);
+      cursor: pointer;
+    }
+
+    .language-switch button.active {
+      border-color: #f4c95d;
+      background: #f4c95d;
+      color: #24313d;
+      font-weight: 750;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 13px;
+    }
+
+    .bar {
+      height: 9px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .bar span {
+      display: block;
+      width: 18%;
+      height: 100%;
+      background: linear-gradient(90deg, #f4c95d, #35b7a5);
+      border-radius: inherit;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav button {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.76);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav button.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav small {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .daily {
+      margin-top: auto;
+      padding: 16px;
+      border-radius: 8px;
+      background: #fffaf2;
+      color: var(--ink);
+    }
+
+    .daily h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+
+    .daily p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    main {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    .hero {
+      min-height: 210px;
+      padding: 28px;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(36, 49, 61, 0.92), rgba(36, 49, 61, 0.62)),
+        repeating-linear-gradient(135deg, rgba(255,255,255,0.1) 0 2px, transparent 2px 18px),
+        #c84d34;
+      color: #fff;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 20px;
+      align-items: end;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h2 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 14px 0 0;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.7;
+    }
+
+    .meter {
+      padding: 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .meter strong {
+      display: block;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .meter span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .toolbar {
+      margin: 22px 0 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .chip.active {
+      color: #fff;
+      border-color: var(--teal);
+      background: var(--teal);
+    }
+
+    .search {
+      width: min(360px, 100%);
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      outline: none;
+    }
+
+    .speed-control {
+      min-height: 40px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .speed-control input {
+      width: 120px;
+      accent-color: var(--terra);
+    }
+
+    .practice-panel {
+      margin: 0 0 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 14px;
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(31, 41, 51, 0.08);
+    }
+
+    .practice-main {
+      display: grid;
+      gap: 14px;
+    }
+
+    .practice-kicker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--terra-dark);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .practice-question {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .practice-prompt {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .answer-btn {
+      min-height: 52px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      line-height: 1.45;
+    }
+
+    .answer-btn.correct {
+      border-color: var(--green);
+      background: rgba(63, 125, 74, 0.12);
+    }
+
+    .answer-btn.wrong {
+      border-color: var(--terra);
+      background: rgba(200, 77, 52, 0.12);
+    }
+
+    .practice-feedback {
+      min-height: 24px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .practice-side {
+      padding: 16px;
+      border-radius: 8px;
+      background: #24313d;
+      color: #fff;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .score-box {
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .score-box strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .score-box span {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 12px;
+    }
+
+    .practice-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 330px;
+      padding: 18px;
+      border: 1px solid rgba(36, 49, 61, 0.1);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 10px 26px rgba(31, 41, 51, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--terra);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .meaning {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .pronounce {
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(36, 49, 61, 0.08);
+    }
+
+    .pronounce span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .pronounce strong {
+      font-size: 17px;
+      line-height: 1.4;
+      color: var(--teal);
+    }
+
+    .pattern {
+      display: grid;
+      gap: 6px;
+      padding: 12px;
+      border-left: 4px solid var(--gold);
+      background: rgba(216, 149, 36, 0.1);
+      border-radius: 0 8px 8px 0;
+      line-height: 1.5;
+    }
+
+    .pattern small {
+      color: var(--muted);
+    }
+
+    .examples {
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .example {
+      display: grid;
+      gap: 4px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(36, 49, 61, 0.08);
+    }
+
+    .example .es {
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .example .zh {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      min-width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .speak-main {
+      padding: 0 12px;
+      color: #fff;
+      border-color: var(--terra);
+      background: var(--terra);
+      gap: 7px;
+    }
+
+    .status {
+      min-height: 40px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .planner {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+    }
+
+    .panel {
+      padding: 18px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--line);
+    }
+
+    .panel h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .schedule {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .day {
+      min-height: 86px;
+      padding: 11px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(36, 49, 61, 0.08);
+    }
+
+    .day strong {
+      display: block;
+      color: var(--terra-dark);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .day span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .drill {
+      display: grid;
+      gap: 10px;
+    }
+
+    .drill-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .drill-row:last-child { border-bottom: 0; }
+
+    .vocabulary-panel {
+      margin-top: 18px;
+    }
+
+    .vocab-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .vocab-table {
+      display: grid;
+      gap: 8px;
+    }
+
+    .vocab-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 1fr 88px;
+      gap: 10px;
+      align-items: center;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid rgba(36, 49, 61, 0.08);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .vocab-row strong {
+      color: var(--teal);
+    }
+
+    .vocab-row span {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1120px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero { grid-template-columns: 1fr; }
+      .planner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { min-height: auto; }
+      main { padding: 18px; }
+      .grid, .schedule { grid-template-columns: 1fr; }
+      .practice-panel { grid-template-columns: 1fr; }
+      .answers { grid-template-columns: 1fr; }
+      .vocab-head { display: grid; }
+      .vocab-row { grid-template-columns: 1fr; }
+      .hero { padding: 22px; }
+      .toolbar { align-items: stretch; }
+      .search { width: 100%; }
+    }
+  </style>
 </head>
 <body>
-  <p><a href="spanish-learning-panel.html">Open Spanish Learning Panel</a></p>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1 id="brandTitle">西語從零開始</h1>
+          <p id="brandSubtitle">A1 survival panel</p>
+        </div>
+      </div>
+
+      <div class="language-switch" aria-label="選擇語言">
+        <button class="active" data-language="spanish">西語</button>
+        <button data-language="japanese">日語</button>
+      </div>
+
+      <section class="progress-card" aria-label="學習進度">
+        <div class="progress-top">
+          <span>今日進度</span>
+          <strong id="progressText">0 / 24</strong>
+        </div>
+        <div class="bar"><span id="progressBar"></span></div>
+      </section>
+
+      <nav id="sectionNav" class="nav" aria-label="章節">
+        <button class="active" data-section="all">全部句型 <small>24</small></button>
+        <button data-section="問候">問候 <small>4</small></button>
+        <button data-section="自我介紹">自我介紹 <small>5</small></button>
+        <button data-section="名詞句">名詞句 <small>5</small></button>
+        <button data-section="日常動作">日常動作 <small>5</small></button>
+        <button data-section="旅行生存">旅行生存 <small>5</small></button>
+      </nav>
+
+      <section class="daily">
+        <h2 id="dailyTitle">今日節奏</h2>
+        <p id="dailyText">3 個句型、10 個單字、每句跟讀 3 次。播放後立刻自己模仿，先求敢講，再修正。</p>
+      </section>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h2 id="heroTitle">從第一句西語開始，做成能聽、能跟讀、能追蹤的面板。</h2>
+          <p id="heroText">每張卡都有西語、近似羅馬拼音發音、中文意思、句型接續與兩個例句。播放鍵會呼叫瀏覽器的西班牙語語音。</p>
+        </div>
+        <div class="meter">
+          <strong id="meterLevel">A1</strong>
+          <span id="meterText">先完成生存句、名詞句、日常動作，再進到動詞變化與時態。</span>
+        </div>
+      </section>
+
+      <div class="toolbar">
+        <div class="filters" aria-label="狀態篩選">
+          <button class="chip active" data-filter="all">全部</button>
+          <button class="chip" data-filter="待學">待學</button>
+          <button class="chip" data-filter="學習中">學習中</button>
+          <button class="chip" data-filter="熟練">熟練</button>
+        </div>
+        <input id="searchInput" class="search" type="search" placeholder="搜尋：hola、我叫、餐廳..." aria-label="搜尋句型">
+        <label class="speed-control">
+          語速 <input id="speedInput" type="range" min="0.55" max="1.15" step="0.05" value="0.82">
+          <strong id="speedValue">0.82x</strong>
+        </label>
+      </div>
+
+      <section class="panel practice-panel" aria-label="練習題">
+        <div class="practice-main">
+          <div class="practice-kicker">
+            <span id="practiceMode">聽力選擇</span>
+            <button id="practiceSpeak" class="icon-btn speak-main" type="button" title="播放題目">▶ 播放</button>
+          </div>
+          <h3 id="practiceQuestion" class="practice-question">準備練習</h3>
+          <p id="practicePrompt" class="practice-prompt">依照題目選出正確答案。</p>
+          <div id="answerGrid" class="answers"></div>
+          <div id="practiceFeedback" class="practice-feedback"></div>
+          <div class="practice-actions">
+            <button id="nextQuestion" class="chip active" type="button">下一題</button>
+            <button id="resetPractice" class="chip" type="button">重置分數</button>
+          </div>
+        </div>
+        <aside class="practice-side">
+          <div class="score-grid">
+            <div class="score-box"><strong id="scoreText">0</strong><span>答對</span></div>
+            <div class="score-box"><strong id="streakText">0</strong><span>連勝</span></div>
+          </div>
+          <p class="practice-prompt">練習會輪流出現聽音選意思、看中文選外語、句型填空。答完會立刻給回饋。</p>
+        </aside>
+      </section>
+
+      <section id="cards" class="grid" aria-live="polite"></section>
+
+      <section class="planner">
+        <div class="panel">
+          <h3 id="scheduleTitle">前 8 天安排</h3>
+          <div id="scheduleGrid" class="schedule">
+            <div class="day"><strong>Day 1</strong><span>Hola、Gracias、Por favor</span></div>
+            <div class="day"><strong>Day 2</strong><span>Me llamo、Soy、Soy de</span></div>
+            <div class="day"><strong>Day 3</strong><span>Esto es、No es、Es?</span></div>
+            <div class="day"><strong>Day 4</strong><span>Tengo、Quiero、Necesito</span></div>
+            <div class="day"><strong>Day 5</strong><span>¿Dónde está?、¿Cuánto cuesta?</span></div>
+            <div class="day"><strong>Day 6</strong><span>Como、Bebo、Voy</span></div>
+            <div class="day"><strong>Day 7</strong><span>20 句口說複習</span></div>
+            <div class="day"><strong>Day 8</strong><span>錄 60 秒自我介紹</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 id="drillTitle">每日練習</h3>
+          <div id="drillList" class="drill">
+            <div class="drill-row"><span>播放例句</span><strong>3 輪</strong></div>
+            <div class="drill-row"><span>遮住中文翻譯</span><strong>2 分鐘</strong></div>
+            <div class="drill-row"><span>替換名詞造句</span><strong>5 句</strong></div>
+            <div class="drill-row"><span>錄音回聽</span><strong>1 次</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="vocabularyPanel" class="panel vocabulary-panel">
+        <div class="vocab-head">
+          <div>
+            <h3>CH3 房屋單字</h3>
+            <p class="meaning">從你的手寫筆記整理：住家類型、房間、家具、服務、家電與房屋描述。</p>
+          </div>
+          <input id="vocabSearch" class="search" type="search" placeholder="搜尋：cocina、沙發、bright..." aria-label="搜尋房屋單字">
+        </div>
+        <div id="vocabTable" class="vocab-table"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const spanishLessons = [
+      { section: "問候", title: "Hola", meaning: "你好", pronunciation: "歐-la", pattern: "Hola", examples: [["Hola, Juan.", "你好，Juan。"], ["Hola, buenos días.", "你好，早安。"]], status: "待學" },
+      { section: "問候", title: "Gracias", meaning: "謝謝", pronunciation: "格拉-thi-as / 格拉-si-as", pattern: "Gracias + por + N/V", examples: [["Gracias por tu ayuda.", "謝謝你的幫忙。"], ["Muchas gracias.", "非常謝謝。"]], status: "待學" },
+      { section: "問候", title: "Por favor", meaning: "請 / 麻煩你", pronunciation: "波爾 fa-沃爾", pattern: "請求句 + por favor", examples: [["Un café, por favor.", "請給我一杯咖啡。"], ["Ayúdame, por favor.", "請幫我。"]], status: "待學" },
+      { section: "問候", title: "Perdón", meaning: "不好意思 / 抱歉", pronunciation: "佩爾-don", pattern: "Perdón / Perdón por + N", examples: [["Perdón, ¿dónde está el baño?", "不好意思，廁所在哪裡？"], ["Perdón por llegar tarde.", "抱歉我遲到了。"]], status: "待學" },
+      { section: "自我介紹", title: "Me llamo ...", meaning: "我叫...", pronunciation: "美 ya-mo", pattern: "Me llamo + 名字", examples: [["Me llamo Lin.", "我叫 Lin。"], ["Hola, me llamo Ana.", "你好，我叫 Ana。"]], status: "待學" },
+      { section: "自我介紹", title: "Soy ...", meaning: "我是...", pronunciation: "soy", pattern: "Soy + 身分/形容詞", examples: [["Soy estudiante.", "我是學生。"], ["Soy diseñador.", "我是設計師。"]], status: "待學" },
+      { section: "自我介紹", title: "Soy de ...", meaning: "我來自...", pronunciation: "soy de", pattern: "Soy de + 地方", examples: [["Soy de Taiwán.", "我來自台灣。"], ["Ella es de España.", "她來自西班牙。"]], status: "待學" },
+      { section: "自我介紹", title: "Tengo ... años", meaning: "我...歲", pronunciation: "ten-go ... a-nyos", pattern: "Tengo + 數字 + años", examples: [["Tengo veinte años.", "我二十歲。"], ["Tengo treinta años.", "我三十歲。"]], status: "待學" },
+      { section: "自我介紹", title: "Hablo ...", meaning: "我會說...", pronunciation: "a-blo", pattern: "Hablo + 語言", examples: [["Hablo chino.", "我會說中文。"], ["Hablo un poco de español.", "我會說一點西班牙文。"]], status: "待學" },
+      { section: "名詞句", title: "Esto es ...", meaning: "這是...", pronunciation: "es-to es", pattern: "Esto es + 名詞", examples: [["Esto es agua.", "這是水。"], ["Esto es mi libro.", "這是我的書。"]], status: "待學" },
+      { section: "名詞句", title: "No es ...", meaning: "不是...", pronunciation: "no es", pattern: "No es + 名詞/形容詞", examples: [["No es caro.", "不貴。"], ["No es mi teléfono.", "這不是我的手機。"]], status: "待學" },
+      { section: "名詞句", title: "¿Es ...?", meaning: "是...嗎？", pronunciation: "es", pattern: "¿Es + 名詞/形容詞?", examples: [["¿Es tu libro?", "這是你的書嗎？"], ["¿Es barato?", "便宜嗎？"]], status: "待學" },
+      { section: "名詞句", title: "Mi / Tu", meaning: "我的 / 你的", pronunciation: "mi / tu", pattern: "Mi/Tu + 名詞", examples: [["Mi nombre es Lin.", "我的名字是 Lin。"], ["Tu casa es bonita.", "你的家很漂亮。"]], status: "待學" },
+      { section: "名詞句", title: "Hay ...", meaning: "有...", pronunciation: "ai", pattern: "Hay + 名詞", examples: [["Hay agua.", "有水。"], ["Hay una mesa en la habitación.", "房間裡有一張桌子。"]], status: "待學" },
+      { section: "日常動作", title: "Quiero ...", meaning: "我想要...", pronunciation: "ki-e-ro", pattern: "Quiero + 名詞 / 動詞原形", examples: [["Quiero agua.", "我想要水。"], ["Quiero aprender español.", "我想學西班牙文。"]], status: "待學" },
+      { section: "日常動作", title: "Necesito ...", meaning: "我需要...", pronunciation: "ne-se-si-to", pattern: "Necesito + 名詞 / 動詞原形", examples: [["Necesito ayuda.", "我需要幫忙。"], ["Necesito descansar.", "我需要休息。"]], status: "待學" },
+      { section: "日常動作", title: "Como ...", meaning: "我吃...", pronunciation: "ko-mo", pattern: "Como + 食物", examples: [["Como pan.", "我吃麵包。"], ["Como arroz todos los días.", "我每天吃飯。"]], status: "待學" },
+      { section: "日常動作", title: "Bebo ...", meaning: "我喝...", pronunciation: "be-bo", pattern: "Bebo + 飲料", examples: [["Bebo agua.", "我喝水。"], ["Bebo café por la mañana.", "我早上喝咖啡。"]], status: "待學" },
+      { section: "日常動作", title: "Voy a ...", meaning: "我要去... / 我將要...", pronunciation: "boy a", pattern: "Voy a + 地方 / 動詞原形", examples: [["Voy a la escuela.", "我要去學校。"], ["Voy a estudiar español.", "我要學西班牙文。"]], status: "待學" },
+      { section: "旅行生存", title: "¿Dónde está ...?", meaning: "...在哪裡？", pronunciation: "don-de es-ta", pattern: "¿Dónde está + 地點/物品?", examples: [["¿Dónde está el baño?", "廁所在哪裡？"], ["¿Dónde está la estación?", "車站在哪裡？"]], status: "待學" },
+      { section: "旅行生存", title: "¿Cuánto cuesta?", meaning: "多少錢？", pronunciation: "kwan-to kwes-ta", pattern: "¿Cuánto cuesta + 名詞?", examples: [["¿Cuánto cuesta esto?", "這個多少錢？"], ["¿Cuánto cuesta el café?", "咖啡多少錢？"]], status: "待學" },
+      { section: "旅行生存", title: "No entiendo", meaning: "我聽不懂 / 我不懂", pronunciation: "no en-tyen-do", pattern: "No entiendo + 內容", examples: [["No entiendo.", "我不懂。"], ["No entiendo español.", "我不懂西班牙文。"]], status: "待學" },
+      { section: "旅行生存", title: "Más despacio", meaning: "請慢一點", pronunciation: "mas des-pa-thio / des-pa-sio", pattern: "Más despacio, por favor", examples: [["Más despacio, por favor.", "請說慢一點。"], ["Habla más despacio, por favor.", "請你說慢一點。"]], status: "待學" },
+      { section: "旅行生存", title: "La cuenta, por favor", meaning: "請結帳", pronunciation: "la kwen-ta por fa-vor", pattern: "La cuenta, por favor", examples: [["La cuenta, por favor.", "請結帳。"], ["Camarero, la cuenta, por favor.", "服務生，請結帳。"]], status: "待學" }
+    ];
+
+    const japaneseLessons = [
+      { section: "名詞句", title: "〜です", meaning: "是...", pronunciation: "desu", pattern: "N + です", examples: [["私は学生です。", "我是學生。"], ["これは本です。", "這是書。"]], status: "待學" },
+      { section: "名詞句", title: "〜ではありません", meaning: "不是...", pronunciation: "dewa arimasen", pattern: "N + ではありません", examples: [["私は先生ではありません。", "我不是老師。"], ["これは水ではありません。", "這不是水。"]], status: "待學" },
+      { section: "名詞句", title: "〜じゃありません", meaning: "不是...", pronunciation: "ja arimasen", pattern: "N + じゃありません", examples: [["私は日本人じゃありません。", "我不是日本人。"], ["これはペンじゃありません。", "這不是筆。"]], status: "待學" },
+      { section: "疑問句", title: "〜ですか", meaning: "是...嗎？", pronunciation: "desu ka", pattern: "句子 + か", examples: [["これは本ですか。", "這是書嗎？"], ["田中さんは先生ですか。", "田中先生是老師嗎？"]], status: "待學" },
+      { section: "基本回應", title: "はい / いいえ", meaning: "是 / 不是", pronunciation: "hai / iie", pattern: "はい / いいえ + 句子", examples: [["はい、学生です。", "是，我是學生。"], ["いいえ、先生ではありません。", "不是，我不是老師。"]], status: "待學" },
+      { section: "指示詞", title: "これ / それ / あれ", meaning: "這個 / 那個 / 那個", pronunciation: "kore / sore / are", pattern: "これ/それ/あれ + は + Nです", examples: [["これは水です。", "這是水。"], ["それは辞書です。", "那是字典。"]], status: "待學" },
+      { section: "指示詞", title: "この / その / あの", meaning: "這個... / 那個...", pronunciation: "kono / sono / ano", pattern: "この/その/あの + N", examples: [["この本は新しいです。", "這本書是新的。"], ["あの人は先生です。", "那個人是老師。"]], status: "待學" },
+      { section: "指示詞", title: "どれ", meaning: "哪一個", pronunciation: "dore", pattern: "どれ + ですか", examples: [["あなたの本はどれですか。", "你的書是哪一本？"], ["田中さんのかばんはどれですか。", "田中的包包是哪一個？"]], status: "待學" },
+      { section: "指示詞", title: "どの", meaning: "哪個...", pronunciation: "dono", pattern: "どの + N", examples: [["どの本が好きですか。", "你喜歡哪本書？"], ["どの人が先生ですか。", "哪個人是老師？"]], status: "待學" },
+      { section: "助詞", title: "〜の〜", meaning: "的 / 所屬 / 關係", pronunciation: "no", pattern: "N1 + の + N2", examples: [["私の名前はリンです。", "我的名字是 Lin。"], ["日本語の本です。", "是日文書。"]], status: "待學" },
+      { section: "助詞", title: "〜も", meaning: "也", pronunciation: "mo", pattern: "N + も", examples: [["私も学生です。", "我也是學生。"], ["これも水です。", "這也是水。"]], status: "待學" },
+      { section: "疑問句", title: "〜はどこですか", meaning: "...在哪裡？", pronunciation: "wa doko desu ka", pattern: "N + は + どこですか", examples: [["トイレはどこですか。", "廁所在哪裡？"], ["駅はどこですか。", "車站在哪裡？"]], status: "待學" },
+      { section: "疑問句", title: "〜は何ですか", meaning: "...是什麼？", pronunciation: "wa nan desu ka", pattern: "N + は + 何ですか", examples: [["これは何ですか。", "這是什麼？"], ["あなたの仕事は何ですか。", "你的工作是什麼？"]], status: "待學" },
+      { section: "存在句", title: "〜があります", meaning: "有某物 / 有植物", pronunciation: "ga arimasu", pattern: "N + があります", examples: [["机があります。", "有桌子。"], ["公園があります。", "有公園。"]], status: "待學" },
+      { section: "存在句", title: "〜がいます", meaning: "有人 / 有動物", pronunciation: "ga imasu", pattern: "N + がいます", examples: [["猫がいます。", "有貓。"], ["教室に学生がいます。", "教室裡有學生。"]], status: "待學" },
+      { section: "請求", title: "〜をください", meaning: "請給我...", pronunciation: "o kudasai", pattern: "N + をください", examples: [["水をください。", "請給我水。"], ["これをください。", "請給我這個。"]], status: "待學" },
+      { section: "喜好能力", title: "〜が好きです", meaning: "喜歡...", pronunciation: "ga suki desu", pattern: "N + が好きです", examples: [["私は音楽が好きです。", "我喜歡音樂。"], ["田中さんは猫が好きです。", "田中喜歡貓。"]], status: "待學" },
+      { section: "喜好能力", title: "〜がわかります", meaning: "懂 / 明白...", pronunciation: "ga wakarimasu", pattern: "N + がわかります", examples: [["日本語が少しわかります。", "我懂一點日文。"], ["この言葉がわかります。", "我懂這個詞。"]], status: "待學" },
+      { section: "動詞ます形", title: "〜を食べます", meaning: "吃...", pronunciation: "o tabemasu", pattern: "N + を + 食べます", examples: [["パンを食べます。", "吃麵包。"], ["昼ご飯を食べます。", "吃午餐。"]], status: "待學" },
+      { section: "動詞ます形", title: "〜へ行きます", meaning: "去...", pronunciation: "e ikimasu", pattern: "場所 + へ + 行きます", examples: [["学校へ行きます。", "去學校。"], ["日本へ行きます。", "去日本。"]], status: "待學" },
+      { section: "形容詞", title: "い形容詞 + です", meaning: "很...", pronunciation: "i keiyoushi desu", pattern: "い形容詞 + です", examples: [["この本はおもしろいです。", "這本書很有趣。"], ["今日は暑いです。", "今天很熱。"]], status: "待學" },
+      { section: "形容詞", title: "な形容詞 + です", meaning: "很...", pronunciation: "na keiyoushi desu", pattern: "な形容詞 + です", examples: [["この町は静かです。", "這個城市很安靜。"], ["この部屋はきれいです。", "這個房間很乾淨。"]], status: "待學" },
+      { section: "邀請請求", title: "〜ましょう", meaning: "一起...吧", pronunciation: "mashou", pattern: "Vます去ます + ましょう", examples: [["一緒に行きましょう。", "一起去吧。"], ["日本語を勉強しましょう。", "一起學日文吧。"]], status: "待學" },
+      { section: "邀請請求", title: "〜てください", meaning: "請做...", pronunciation: "te kudasai", pattern: "Vて形 + ください", examples: [["名前を書いてください。", "請寫名字。"], ["少し待ってください。", "請稍等一下。"]], status: "待學" }
+    ];
+
+    const vocabulary = [
+      ["住家類型", "apartment", "apartamento", "公寓"],
+      ["住家類型", "chalet / cottage", "chalé", "小屋 / 度假屋"],
+      ["住家類型", "studio apartment", "estudio", "套房"],
+      ["住家類型", "flat", "piso", "公寓 / 樓層"],
+      ["房屋部分", "kitchen", "cocina", "廚房"],
+      ["房屋部分", "bedroom", "dormitorio", "臥室"],
+      ["房屋部分", "hallway", "pasillo", "走廊"],
+      ["房屋部分", "living / dining room", "salón-comedor", "客餐廳"],
+      ["房屋部分", "terrace / balcony", "terraza", "露台 / 陽台"],
+      ["家具", "carpet / rug", "alfombra", "地毯"],
+      ["家具", "wardrobe / closet", "armario", "衣櫃"],
+      ["家具", "bed", "cama", "床"],
+      ["家具", "desk", "escritorio", "書桌"],
+      ["家具", "bookshelf / shelf", "estantería", "書架"],
+      ["家具", "lamp", "lámpara", "燈"],
+      ["家具", "chair", "silla", "椅子"],
+      ["家具", "armchair", "sillón", "扶手椅"],
+      ["家具", "sofa / couch", "sofá", "沙發"],
+      ["服務", "air conditioning", "aire acondicionado", "冷氣"],
+      ["服務", "elevator", "ascensor", "電梯"],
+      ["服務", "heating", "calefacción", "暖氣"],
+      ["服務", "central heating", "calefacción central", "中央暖氣"],
+      ["服務", "individual heating", "calefacción individual", "獨立暖氣"],
+      ["服務", "stairs", "escalera", "樓梯"],
+      ["服務", "garage", "garaje", "車庫"],
+      ["家電", "stove / cooker", "cocina", "爐具"],
+      ["家電", "washing machine", "lavadora", "洗衣機"],
+      ["家電", "dishwasher", "lavavajillas", "洗碗機"],
+      ["家電", "microwave", "microondas", "微波爐"],
+      ["家電", "refrigerator / fridge", "nevera", "冰箱"],
+      ["家電", "computer", "ordenador", "電腦"],
+      ["家電", "DVD player", "reproductor de DVD", "DVD 播放器"],
+      ["家電", "TV", "televisión", "電視"],
+      ["房屋描述", "spacious", "amplio / amplia", "寬敞的"],
+      ["房屋描述", "old / antique", "antiguo / antigua", "古老的"],
+      ["房屋描述", "cheap", "barato / barata", "便宜的"],
+      ["房屋描述", "expensive", "caro / cara", "貴的"],
+      ["房屋描述", "comfortable", "cómodo / cómoda", "舒服的"],
+      ["房屋描述", "outward-facing", "exterior", "對外的 / 外向採光"],
+      ["房屋描述", "inward-facing", "interior", "對內的"],
+      ["房屋描述", "bright", "luminoso / luminosa", "明亮的"],
+      ["房屋描述", "modern", "moderno / moderna", "現代的"],
+      ["房屋描述", "new", "nuevo / nueva", "新的"],
+      ["房屋描述", "dark", "oscuro / oscura", "陰暗的"],
+      ["房屋描述", "old", "viejo / vieja", "舊的"],
+      ["相關詞", "real estate agency", "agencia inmobiliaria", "房仲 / 房地產公司"],
+      ["相關詞", "advertisement / listing", "anuncio", "廣告 / 房源"],
+      ["相關詞", "offer", "oferta", "優惠 / 報價"],
+      ["相關詞", "advertisement", "publicidad", "廣告"]
+    ];
+
+    const cards = document.querySelector("#cards");
+    const sectionNav = document.querySelector("#sectionNav");
+    const searchInput = document.querySelector("#searchInput");
+    const vocabSearch = document.querySelector("#vocabSearch");
+    const vocabTable = document.querySelector("#vocabTable");
+    const vocabularyPanel = document.querySelector("#vocabularyPanel");
+    const speedInput = document.querySelector("#speedInput");
+    const speedValue = document.querySelector("#speedValue");
+    const practiceMode = document.querySelector("#practiceMode");
+    const practiceSpeak = document.querySelector("#practiceSpeak");
+    const practiceQuestion = document.querySelector("#practiceQuestion");
+    const practicePrompt = document.querySelector("#practicePrompt");
+    const answerGrid = document.querySelector("#answerGrid");
+    const practiceFeedback = document.querySelector("#practiceFeedback");
+    const nextQuestion = document.querySelector("#nextQuestion");
+    const resetPractice = document.querySelector("#resetPractice");
+    const scoreText = document.querySelector("#scoreText");
+    const streakText = document.querySelector("#streakText");
+    const progressText = document.querySelector("#progressText");
+    const progressBar = document.querySelector("#progressBar");
+    const brandTitle = document.querySelector("#brandTitle");
+    const brandSubtitle = document.querySelector("#brandSubtitle");
+    const dailyTitle = document.querySelector("#dailyTitle");
+    const dailyText = document.querySelector("#dailyText");
+    const heroTitle = document.querySelector("#heroTitle");
+    const heroText = document.querySelector("#heroText");
+    const meterLevel = document.querySelector("#meterLevel");
+    const meterText = document.querySelector("#meterText");
+    const scheduleTitle = document.querySelector("#scheduleTitle");
+    const scheduleGrid = document.querySelector("#scheduleGrid");
+    const drillTitle = document.querySelector("#drillTitle");
+    const drillList = document.querySelector("#drillList");
+    let activeLanguage = "spanish";
+    let currentSection = "all";
+    let currentFilter = "all";
+    let speechRate = Number(speedInput.value);
+    let currentQuestion = null;
+    let practiceStats = {
+      spanish: { score: 0, streak: 0, answered: 0 },
+      japanese: { score: 0, streak: 0, answered: 0 }
+    };
+
+    const languageConfig = {
+      spanish: {
+        lessons: spanishLessons,
+        speechLang: "es-ES",
+        title: "西語從零開始",
+        subtitle: "A1 survival panel",
+        heroTitle: "從第一句西語開始，做成能聽、能跟讀、能追蹤的面板。",
+        heroText: "每張卡都有西語、近似羅馬拼音發音、中文意思、句型接續與兩個例句。播放鍵會呼叫瀏覽器的西班牙語語音。",
+        level: "A1",
+        meterText: "先完成生存句、名詞句、日常動作，再進到動詞變化與時態。",
+        dailyTitle: "今日節奏",
+        dailyText: "3 個句型、10 個單字、每句跟讀 3 次。播放後立刻自己模仿，先求敢講，再修正。",
+        searchPlaceholder: "搜尋：hola、我叫、餐廳...",
+        scheduleTitle: "前 8 天安排",
+        schedule: [
+          ["Day 1", "Hola、Gracias、Por favor"],
+          ["Day 2", "Me llamo、Soy、Soy de"],
+          ["Day 3", "Esto es、No es、Es?"],
+          ["Day 4", "Tengo、Quiero、Necesito"],
+          ["Day 5", "¿Dónde está?、¿Cuánto cuesta?"],
+          ["Day 6", "Como、Bebo、Voy"],
+          ["Day 7", "20 句口說複習"],
+          ["Day 8", "錄 60 秒自我介紹"]
+        ],
+        drillTitle: "每日練習",
+        drills: [["播放例句", "3 輪"], ["遮住中文翻譯", "2 分鐘"], ["替換名詞造句", "5 句"], ["錄音回聽", "1 次"]],
+        showVocabulary: true
+      },
+      japanese: {
+        lessons: japaneseLessons,
+        speechLang: "ja-JP",
+        title: "日語從零開始",
+        subtitle: "N5 grammar panel",
+        heroTitle: "從第一個 N5 文法開始，做成能聽、能跟讀、能追蹤的面板。",
+        heroText: "每張卡都有日語文法、羅馬拼音輔助、中文意思、接續與兩個例句。播放鍵會呼叫瀏覽器的日語語音。",
+        level: "N5",
+        meterText: "先掌握です、指示詞、助詞、存在句，再進到動詞ます形與形容詞。",
+        dailyTitle: "今日節奏",
+        dailyText: "3 個文法、10 個單字、每句跟讀 3 次。先熟悉句型，再自己替換名詞造句。",
+        searchPlaceholder: "搜尋：です、どこ、喜歡...",
+        scheduleTitle: "前 8 天安排",
+        schedule: [
+          ["Day 1", "〜です、否定、疑問"],
+          ["Day 2", "これ、それ、あれ"],
+          ["Day 3", "の、も、どれ、どの"],
+          ["Day 4", "何、誰、どこ"],
+          ["Day 5", "あります、います"],
+          ["Day 6", "好き、わかります、ください"],
+          ["Day 7", "動詞ます形"],
+          ["Day 8", "形容詞與邀請句"]
+        ],
+        drillTitle: "每日練習",
+        drills: [["播放例句", "3 輪"], ["遮住中文翻譯", "2 分鐘"], ["自己造句", "5 句"], ["複習狀態更新", "1 次"]],
+        showVocabulary: false
+      }
+    };
+
+    function activeConfig() {
+      return languageConfig[activeLanguage];
+    }
+
+    function activeLessons() {
+      return activeConfig().lessons;
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) {
+        alert("這個瀏覽器不支援語音播放。");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = activeConfig().speechLang;
+      utterance.rate = speechRate;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function shuffle(items) {
+      return [...items].sort(() => Math.random() - 0.5);
+    }
+
+    function sampleLessons(exceptTitle, count) {
+      return shuffle(activeLessons().filter(item => item.title !== exceptTitle)).slice(0, count);
+    }
+
+    function firstExample(item) {
+      return item.examples[0];
+    }
+
+    function makeQuestion() {
+      const lessons = activeLessons();
+      const item = shuffle(lessons)[0];
+      const example = firstExample(item);
+      const type = Math.floor(Math.random() * 3);
+      const distractors = sampleLessons(item.title, 3);
+
+      if (type === 0) {
+        return {
+          mode: "聽力選擇",
+          question: "聽播放，選出正確中文意思",
+          prompt: "先按播放，再選這句話的中文意思。",
+          speakText: example[0],
+          answer: example[1],
+          options: shuffle([example[1], ...distractors.map(other => firstExample(other)[1])])
+        };
+      }
+
+      if (type === 1) {
+        return {
+          mode: "中文選外語",
+          question: example[1],
+          prompt: "看到中文，選出對應的外語句子。",
+          speakText: example[0],
+          answer: example[0],
+          options: shuffle([example[0], ...distractors.map(other => firstExample(other)[0])])
+        };
+      }
+
+      return {
+        mode: "句型填空",
+        question: `「${item.meaning}」要用哪個句型？`,
+        prompt: item.pattern,
+        speakText: item.title,
+        answer: item.title,
+        options: shuffle([item.title, ...distractors.map(other => other.title)])
+      };
+    }
+
+    function updatePracticeStats() {
+      const stats = practiceStats[activeLanguage];
+      scoreText.textContent = stats.score;
+      streakText.textContent = stats.streak;
+    }
+
+    function renderQuestion() {
+      currentQuestion = makeQuestion();
+      answerGrid.dataset.locked = "false";
+      practiceMode.textContent = currentQuestion.mode;
+      practiceQuestion.textContent = currentQuestion.question;
+      practicePrompt.textContent = currentQuestion.prompt;
+      practiceFeedback.textContent = "";
+      answerGrid.innerHTML = currentQuestion.options.map(option => (
+        `<button class="answer-btn" data-answer="${option}" type="button">${option}</button>`
+      )).join("");
+      updatePracticeStats();
+    }
+
+    function chooseAnswer(answer, button) {
+      if (!currentQuestion || answerGrid.dataset.locked === "true") return;
+      answerGrid.dataset.locked = "true";
+      const correct = answer === currentQuestion.answer;
+      const stats = practiceStats[activeLanguage];
+      stats.answered += 1;
+      if (correct) {
+        stats.score += 1;
+        stats.streak += 1;
+        practiceFeedback.textContent = "答對了。跟著播放再唸一次，把嘴巴也練到。";
+        button.classList.add("correct");
+        speak(currentQuestion.speakText);
+      } else {
+        stats.streak = 0;
+        practiceFeedback.textContent = `差一點，正確答案是：${currentQuestion.answer}`;
+        button.classList.add("wrong");
+        [...answerGrid.querySelectorAll(".answer-btn")].forEach(item => {
+          if (item.dataset.answer === currentQuestion.answer) item.classList.add("correct");
+        });
+      }
+      updatePracticeStats();
+    }
+
+    function cycleStatus(item) {
+      const states = ["待學", "學習中", "熟練"];
+      const next = states[(states.indexOf(item.status) + 1) % states.length];
+      item.status = next;
+      render();
+    }
+
+    function updateProgress() {
+      const lessons = activeLessons();
+      const done = lessons.filter(item => item.status === "熟練").length;
+      progressText.textContent = `${done} / ${lessons.length}`;
+      progressBar.style.width = `${Math.max(8, done / lessons.length * 100)}%`;
+    }
+
+    function filteredLessons() {
+      const q = searchInput.value.trim().toLowerCase();
+      return activeLessons().filter(item => {
+        const sectionMatch = currentSection === "all" || item.section === currentSection;
+        const statusMatch = currentFilter === "all" || item.status === currentFilter;
+        const text = [
+          item.section, item.title, item.meaning, item.pronunciation, item.pattern,
+          ...item.examples.flat()
+        ].join(" ").toLowerCase();
+        return sectionMatch && statusMatch && text.includes(q);
+      });
+    }
+
+    function renderNav() {
+      const lessons = activeLessons();
+      const counts = lessons.reduce((memo, item) => {
+        memo[item.section] = (memo[item.section] || 0) + 1;
+        return memo;
+      }, {});
+
+      sectionNav.innerHTML = [
+        `<button class="${currentSection === "all" ? "active" : ""}" data-section="all">全部 <small>${lessons.length}</small></button>`,
+        ...Object.entries(counts).map(([section, count]) => (
+          `<button class="${currentSection === section ? "active" : ""}" data-section="${section}">${section} <small>${count}</small></button>`
+        ))
+      ].join("");
+    }
+
+    function renderLanguage() {
+      const config = activeConfig();
+      brandTitle.textContent = config.title;
+      brandSubtitle.textContent = config.subtitle;
+      dailyTitle.textContent = config.dailyTitle;
+      dailyText.textContent = config.dailyText;
+      heroTitle.textContent = config.heroTitle;
+      heroText.textContent = config.heroText;
+      meterLevel.textContent = config.level;
+      meterText.textContent = config.meterText;
+      searchInput.placeholder = config.searchPlaceholder;
+      scheduleTitle.textContent = config.scheduleTitle;
+      drillTitle.textContent = config.drillTitle;
+      scheduleGrid.innerHTML = config.schedule.map(([day, text]) => (
+        `<div class="day"><strong>${day}</strong><span>${text}</span></div>`
+      )).join("");
+      drillList.innerHTML = config.drills.map(([task, amount]) => (
+        `<div class="drill-row"><span>${task}</span><strong>${amount}</strong></div>`
+      )).join("");
+      vocabularyPanel.style.display = config.showVocabulary ? "" : "none";
+      document.querySelectorAll(".language-switch button").forEach(button => {
+        button.classList.toggle("active", button.dataset.language === activeLanguage);
+      });
+      renderNav();
+      render();
+      renderVocabulary();
+      answerGrid.dataset.locked = "false";
+      renderQuestion();
+    }
+
+    function render() {
+      updateProgress();
+      const data = filteredLessons();
+      cards.innerHTML = data.map((item, index) => `
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <span class="tag">${item.section}</span>
+              <h3>${item.title}</h3>
+            </div>
+            <button class="status" data-action="status" data-title="${item.title}" title="切換學習狀態">${item.status}</button>
+          </div>
+          <p class="meaning">${item.meaning}</p>
+          <div class="pronounce">
+            <span>近似發音</span>
+            <strong>${item.pronunciation}</strong>
+          </div>
+          <div class="pattern">
+            <small>句型</small>
+            <strong>${item.pattern}</strong>
+          </div>
+          <div class="examples">
+            ${item.examples.map((example, exampleIndex) => `
+              <div class="example">
+                <div class="es">${example[0]}</div>
+                <div class="zh">${example[1]}</div>
+                <div class="actions">
+                  <button class="icon-btn speak-main" data-action="speak" data-text="${example[0]}" title="播放例句">▶ 播放</button>
+                  <button class="icon-btn" data-action="speak" data-text="${item.title}" title="只播放句型">◎</button>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </article>
+      `).join("");
+
+      if (!data.length) {
+        cards.innerHTML = `<div class="panel"><h3>沒有符合的句型</h3><p class="meaning">換一個搜尋詞或篩選條件。</p></div>`;
+      }
+    }
+
+    function renderVocabulary() {
+      const q = vocabSearch.value.trim().toLowerCase();
+      const data = vocabulary.filter(row => row.join(" ").toLowerCase().includes(q));
+      vocabTable.innerHTML = data.map(row => `
+        <div class="vocab-row">
+          <span>${row[0]}</span>
+          <span>${row[1]}</span>
+          <strong>${row[2]}</strong>
+          <button class="icon-btn speak-main" data-vocab-speak="${row[2]}" title="播放西語單字">▶ 播放</button>
+        </div>
+      `).join("");
+
+      if (!data.length) {
+        vocabTable.innerHTML = `<div class="vocab-row"><span>沒有符合的單字</span><span></span><strong></strong><span></span></div>`;
+      }
+    }
+
+    sectionNav.addEventListener("click", event => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      currentSection = button.dataset.section;
+      renderNav();
+      render();
+    });
+
+    document.querySelectorAll(".language-switch button").forEach(button => {
+      button.addEventListener("click", () => {
+        activeLanguage = button.dataset.language;
+        currentSection = "all";
+        currentFilter = "all";
+        searchInput.value = "";
+        document.querySelectorAll(".chip").forEach(item => {
+          item.classList.toggle("active", item.dataset.filter === "all");
+        });
+        renderLanguage();
+      });
+    });
+
+    document.querySelectorAll(".chip").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        currentFilter = button.dataset.filter;
+        render();
+      });
+    });
+
+    cards.addEventListener("click", event => {
+      const target = event.target.closest("button");
+      if (!target) return;
+
+      if (target.dataset.action === "speak") {
+        speak(target.dataset.text);
+      }
+
+      if (target.dataset.action === "status") {
+        const item = activeLessons().find(lesson => lesson.title === target.dataset.title);
+        cycleStatus(item);
+      }
+    });
+
+    vocabTable.addEventListener("click", event => {
+      const target = event.target.closest("button");
+      if (target && target.dataset.vocabSpeak) speak(target.dataset.vocabSpeak);
+    });
+
+    answerGrid.addEventListener("click", event => {
+      const button = event.target.closest(".answer-btn");
+      if (!button) return;
+      chooseAnswer(button.dataset.answer, button);
+    });
+
+    practiceSpeak.addEventListener("click", () => {
+      if (currentQuestion) speak(currentQuestion.speakText);
+    });
+
+    nextQuestion.addEventListener("click", () => {
+      answerGrid.dataset.locked = "false";
+      renderQuestion();
+    });
+
+    resetPractice.addEventListener("click", () => {
+      practiceStats[activeLanguage] = { score: 0, streak: 0, answered: 0 };
+      answerGrid.dataset.locked = "false";
+      renderQuestion();
+    });
+
+    speedInput.addEventListener("input", () => {
+      speechRate = Number(speedInput.value);
+      speedValue.textContent = `${speechRate.toFixed(2)}x`;
+    });
+
+    searchInput.addEventListener("input", render);
+    vocabSearch.addEventListener("input", renderVocabulary);
+    renderLanguage();
+  </script>
 </body>
 </html>
