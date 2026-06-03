@@ -831,35 +831,1274 @@
       { section: "旅行生存", title: "¿Cuánto cuesta?", meaning: "多少錢？", pronunciation: "kwan-to kwes-ta", pattern: "¿Cuánto cuesta + 名詞?", examples: [["¿Cuánto cuesta esto?", "這個多少錢？"], ["¿Cuánto cuesta el café?", "咖啡多少錢？"]], status: "待學" },
       { section: "旅行生存", title: "No entiendo", meaning: "我聽不懂 / 我不懂", pronunciation: "no en-tyen-do", pattern: "No entiendo + 內容", examples: [["No entiendo.", "我不懂。"], ["No entiendo español.", "我不懂西班牙文。"]], status: "待學" },
       { section: "旅行生存", title: "Más despacio", meaning: "請慢一點", pronunciation: "mas des-pa-thio / des-pa-sio", pattern: "Más despacio, por favor", examples: [["Más despacio, por favor.", "請說慢一點。"], ["Habla más despacio, por favor.", "請你說慢一點。"]], status: "待學" },
-      { section: "旅行生存", title: "La cuenta, por favor", meaning: "請結帳", pronunciation: "la kwen-ta por fa-vor", pattern: "La cuenta, por favor", examples: [["La cuenta, por favor.", "請結帳。"], ["Camarero, la cuenta, por favor.", "服務生，請結帳。"]], status: "待學" }
+      { section: "旅行生存", title: "La cuenta, por favor", meaning: "請結帳", pronunciation: "la kwen-ta por fa-vor", pattern: "La cuenta, por favor", examples: [["La cuenta, por favor.", "請結帳。"], ["Camarero, la cuenta, por favor.", "服務生，請結帳。"]], status: "待學" },
+      { section: "基礎文法", title: "Yo / Tú / Él / Ella", meaning: "我 / 你 / 他 / 她", pronunciation: "yo / tu / el / e-ya", pattern: "主詞代名詞 + 動詞", examples: [["Yo soy Lin.", "我是 Lin。"], ["Ella vive en Madrid.", "她住在馬德里。"]], status: "待學" },
+      { section: "基礎文法", title: "El / La", meaning: "定冠詞：這個 / 那個", pronunciation: "el / la", pattern: "el + 陽性名詞 / la + 陰性名詞", examples: [["El libro es nuevo.", "這本書是新的。"], ["La casa es grande.", "這間房子很大。"]], status: "待學" },
+      { section: "基礎文法", title: "Un / Una", meaning: "不定冠詞：一個", pronunciation: "un / u-na", pattern: "un + 陽性名詞 / una + 陰性名詞", examples: [["Quiero un café.", "我想要一杯咖啡。"], ["Tengo una pregunta.", "我有一個問題。"]], status: "待學" },
+      { section: "基礎文法", title: "Ser", meaning: "是，表示身分或特質", pronunciation: "ser", pattern: "soy / eres / es", examples: [["Soy estudiante.", "我是學生。"], ["Es muy amable.", "他/她很親切。"]], status: "待學" },
+      { section: "基礎文法", title: "Estar", meaning: "在，表示位置或狀態", pronunciation: "es-tar", pattern: "estoy / estás / está", examples: [["Estoy en casa.", "我在家。"], ["La estación está cerca.", "車站在附近。"]], status: "待學" },
+      { section: "基礎文法", title: "Tener", meaning: "有", pronunciation: "te-ner", pattern: "tengo / tienes / tiene", examples: [["Tengo una bicicleta.", "我有一台腳踏車。"], ["Ella tiene dos hermanos.", "她有兩個兄弟。"]], status: "待學" },
+      { section: "基礎文法", title: "Hay", meaning: "有，某處存在", pronunciation: "ai", pattern: "Hay + 名詞", examples: [["Hay una farmacia aquí.", "這裡有一間藥局。"], ["Hay mucha gente.", "有很多人。"]], status: "待學" },
+      { section: "數字時間", title: "Uno, dos, tres", meaning: "一、二、三", pronunciation: "u-no / dos / tres", pattern: "數字 + 名詞", examples: [["Tengo dos libros.", "我有兩本書。"], ["Quiero tres entradas.", "我想要三張票。"]], status: "待學" },
+      { section: "數字時間", title: "¿Qué hora es?", meaning: "現在幾點？", pronunciation: "ke o-ra es", pattern: "¿Qué hora es?", examples: [["¿Qué hora es?", "現在幾點？"], ["Son las ocho.", "現在八點。"]], status: "待學" },
+      { section: "數字時間", title: "A las ...", meaning: "在...點", pronunciation: "a las", pattern: "a las + 時間", examples: [["Trabajo a las nueve.", "我九點工作。"], ["La clase empieza a las diez.", "課十點開始。"]], status: "待學" },
+      { section: "數字時間", title: "Hoy / Mañana / Ayer", meaning: "今天 / 明天 / 昨天", pronunciation: "oy / ma-nya-na / a-yer", pattern: "時間詞 + 句子", examples: [["Hoy estudio español.", "今天我學西班牙文。"], ["Mañana voy al mercado.", "明天我要去市場。"]], status: "待學" },
+      { section: "日常作息", title: "Me levanto", meaning: "我起床", pronunciation: "me le-van-to", pattern: "Me levanto + 時間", examples: [["Me levanto a las siete.", "我七點起床。"], ["Me levanto temprano.", "我很早起床。"]], status: "待學" },
+      { section: "日常作息", title: "Trabajo / Estudio", meaning: "我工作 / 我讀書", pronunciation: "tra-ba-ho / es-tu-dio", pattern: "Trabajo / Estudio + 地點/時間", examples: [["Trabajo en una oficina.", "我在辦公室工作。"], ["Estudio por la noche.", "我晚上讀書。"]], status: "待學" },
+      { section: "日常作息", title: "Voy al trabajo", meaning: "我去上班", pronunciation: "boy al tra-ba-ho", pattern: "Voy a + 地點", examples: [["Voy al trabajo en metro.", "我搭捷運去上班。"], ["Voy a casa después de clase.", "下課後我回家。"]], status: "待學" },
+      { section: "日常作息", title: "Normalmente ...", meaning: "通常...", pronunciation: "nor-mal-men-te", pattern: "Normalmente + 句子", examples: [["Normalmente desayuno café.", "我通常早餐喝咖啡。"], ["Normalmente estudio en casa.", "我通常在家讀書。"]], status: "待學" },
+      { section: "喜好", title: "Me gusta ...", meaning: "我喜歡...", pronunciation: "me gus-ta", pattern: "Me gusta + 單數名詞 / 動詞原形", examples: [["Me gusta el café.", "我喜歡咖啡。"], ["Me gusta viajar.", "我喜歡旅行。"]], status: "待學" },
+      { section: "喜好", title: "Me gustan ...", meaning: "我喜歡...們", pronunciation: "me gus-tan", pattern: "Me gustan + 複數名詞", examples: [["Me gustan los libros.", "我喜歡書。"], ["Me gustan las películas.", "我喜歡電影。"]], status: "待學" },
+      { section: "喜好", title: "No me gusta ...", meaning: "我不喜歡...", pronunciation: "no me gus-ta", pattern: "No me gusta + 名詞/動詞", examples: [["No me gusta el ruido.", "我不喜歡噪音。"], ["No me gusta esperar.", "我不喜歡等待。"]], status: "待學" },
+      { section: "喜好", title: "Prefiero ...", meaning: "我比較喜歡...", pronunciation: "pre-fie-ro", pattern: "Prefiero + 名詞/動詞", examples: [["Prefiero té.", "我比較喜歡茶。"], ["Prefiero caminar.", "我比較喜歡走路。"]], status: "待學" },
+      { section: "購物餐廳", title: "Quisiera ...", meaning: "我想要...（較禮貌）", pronunciation: "ki-sie-ra", pattern: "Quisiera + 名詞", examples: [["Quisiera una mesa para dos.", "我想要一張兩人桌。"], ["Quisiera agua, por favor.", "我想要水，謝謝。"]], status: "待學" },
+      { section: "購物餐廳", title: "¿Tiene ...?", meaning: "你們有...嗎？", pronunciation: "tie-ne", pattern: "¿Tiene + 名詞?", examples: [["¿Tiene agua sin gas?", "你們有不含氣泡的水嗎？"], ["¿Tiene una talla más grande?", "有大一號的尺寸嗎？"]], status: "待學" },
+      { section: "購物餐廳", title: "Para llevar", meaning: "外帶", pronunciation: "pa-ra ye-var", pattern: "Para llevar, por favor", examples: [["Para llevar, por favor.", "請外帶。"], ["Quiero un café para llevar.", "我想要一杯外帶咖啡。"]], status: "待學" },
+      { section: "購物餐廳", title: "Para aquí", meaning: "內用", pronunciation: "pa-ra a-ki", pattern: "Para aquí", examples: [["Para aquí, por favor.", "請內用。"], ["Un bocadillo para aquí.", "一份三明治內用。"]], status: "待學" },
+      { section: "購物餐廳", title: "¿Puedo pagar con tarjeta?", meaning: "我可以刷卡嗎？", pronunciation: "pwe-do pa-gar kon tar-he-ta", pattern: "¿Puedo pagar con + 支付方式?", examples: [["¿Puedo pagar con tarjeta?", "我可以刷卡嗎？"], ["Pago en efectivo.", "我付現金。"]], status: "待學" },
+      { section: "方向城市", title: "A la derecha", meaning: "在右邊 / 往右", pronunciation: "a la de-re-cha", pattern: "a la derecha", examples: [["El banco está a la derecha.", "銀行在右邊。"], ["Gire a la derecha.", "請往右轉。"]], status: "待學" },
+      { section: "方向城市", title: "A la izquierda", meaning: "在左邊 / 往左", pronunciation: "a la is-kier-da", pattern: "a la izquierda", examples: [["La tienda está a la izquierda.", "商店在左邊。"], ["Gire a la izquierda.", "請往左轉。"]], status: "待學" },
+      { section: "方向城市", title: "Todo recto", meaning: "一直直走", pronunciation: "to-do rek-to", pattern: "Siga todo recto", examples: [["Siga todo recto.", "請一直直走。"], ["La estación está todo recto.", "車站直走就到。"]], status: "待學" },
+      { section: "方向城市", title: "Está cerca / lejos", meaning: "在附近 / 很遠", pronunciation: "es-ta ther-ka / le-hos", pattern: "Está + cerca/lejos", examples: [["El hotel está cerca.", "飯店在附近。"], ["El aeropuerto está lejos.", "機場很遠。"]], status: "待學" },
+      { section: "天氣描述", title: "Hace calor / frío", meaning: "天氣熱 / 冷", pronunciation: "a-the ka-lor / fri-o", pattern: "Hace + 天氣名詞", examples: [["Hace calor hoy.", "今天很熱。"], ["Hace frío por la noche.", "晚上很冷。"]], status: "待學" },
+      { section: "天氣描述", title: "Está lloviendo", meaning: "正在下雨", pronunciation: "es-ta yo-vien-do", pattern: "Está + 現在分詞", examples: [["Está lloviendo.", "正在下雨。"], ["Está nevando.", "正在下雪。"]], status: "待學" },
+      { section: "天氣描述", title: "Es bonito / bonita", meaning: "很漂亮", pronunciation: "es bo-ni-to / bo-ni-ta", pattern: "Es + 形容詞", examples: [["La ciudad es bonita.", "這個城市很漂亮。"], ["El parque es bonito.", "這個公園很漂亮。"]], status: "待學" },
+      { section: "人物描述", title: "Es alto / alta", meaning: "高的", pronunciation: "es al-to / al-ta", pattern: "Es + 形容詞", examples: [["Mi hermano es alto.", "我哥哥很高。"], ["Ella es alta y amable.", "她很高也很親切。"]], status: "待學" },
+      { section: "人物描述", title: "Es simpático / simpática", meaning: "友善的", pronunciation: "sim-pa-ti-ko / sim-pa-ti-ka", pattern: "Es + 形容詞", examples: [["Mi profesor es simpático.", "我的老師很友善。"], ["Ana es simpática.", "Ana 很友善。"]], status: "待學" },
+      { section: "旅行生存", title: "Tengo una reserva", meaning: "我有訂位 / 預訂", pronunciation: "ten-go u-na re-ser-va", pattern: "Tengo una reserva + 名字", examples: [["Tengo una reserva a nombre de Lin.", "我有用 Lin 的名字訂位。"], ["Tengo una reserva para dos noches.", "我有兩晚的預訂。"]], status: "待學" },
+      { section: "旅行生存", title: "Necesito ayuda", meaning: "我需要幫忙", pronunciation: "ne-se-si-to a-yu-da", pattern: "Necesito ayuda", examples: [["Necesito ayuda, por favor.", "我需要幫忙，謝謝。"], ["Necesito un médico.", "我需要醫生。"]], status: "待學" },
+      { section: "旅行生存", title: "¿Habla inglés?", meaning: "你會說英文嗎？", pronunciation: "a-bla in-gles", pattern: "¿Habla + 語言?", examples: [["¿Habla inglés?", "你會說英文嗎？"], ["Hablo un poco de español.", "我會說一點西班牙文。"]], status: "待學" },
+      { section: "未來計畫", title: "Voy a ...", meaning: "我要 / 將要...", pronunciation: "boy a", pattern: "Voy a + 動詞原形", examples: [["Voy a estudiar mañana.", "我明天要讀書。"], ["Voy a viajar a España.", "我要去西班牙旅行。"]], status: "待學" },
+      { section: "未來計畫", title: "Tengo que ...", meaning: "我必須...", pronunciation: "ten-go ke", pattern: "Tengo que + 動詞原形", examples: [["Tengo que trabajar.", "我必須工作。"], ["Tengo que comprar comida.", "我必須買食物。"]], status: "待學" },
+      { section: "未來計畫", title: "Puedo ...", meaning: "我可以 / 我能...", pronunciation: "pwe-do", pattern: "Puedo + 動詞原形", examples: [["Puedo ayudarte.", "我可以幫你。"], ["No puedo ir hoy.", "我今天不能去。"]], status: "待學" }
     ];
 
     const japaneseLessons = [
-      { section: "名詞句", title: "〜です", meaning: "是...", pronunciation: "desu", pattern: "N + です", examples: [["私は学生です。", "我是學生。"], ["これは本です。", "這是書。"]], status: "待學" },
-      { section: "名詞句", title: "〜ではありません", meaning: "不是...", pronunciation: "dewa arimasen", pattern: "N + ではありません", examples: [["私は先生ではありません。", "我不是老師。"], ["これは水ではありません。", "這不是水。"]], status: "待學" },
-      { section: "名詞句", title: "〜じゃありません", meaning: "不是...", pronunciation: "ja arimasen", pattern: "N + じゃありません", examples: [["私は日本人じゃありません。", "我不是日本人。"], ["これはペンじゃありません。", "這不是筆。"]], status: "待學" },
-      { section: "疑問句", title: "〜ですか", meaning: "是...嗎？", pronunciation: "desu ka", pattern: "句子 + か", examples: [["これは本ですか。", "這是書嗎？"], ["田中さんは先生ですか。", "田中先生是老師嗎？"]], status: "待學" },
-      { section: "基本回應", title: "はい / いいえ", meaning: "是 / 不是", pronunciation: "hai / iie", pattern: "はい / いいえ + 句子", examples: [["はい、学生です。", "是，我是學生。"], ["いいえ、先生ではありません。", "不是，我不是老師。"]], status: "待學" },
-      { section: "指示詞", title: "これ / それ / あれ", meaning: "這個 / 那個 / 那個", pronunciation: "kore / sore / are", pattern: "これ/それ/あれ + は + Nです", examples: [["これは水です。", "這是水。"], ["それは辞書です。", "那是字典。"]], status: "待學" },
-      { section: "指示詞", title: "この / その / あの", meaning: "這個... / 那個...", pronunciation: "kono / sono / ano", pattern: "この/その/あの + N", examples: [["この本は新しいです。", "這本書是新的。"], ["あの人は先生です。", "那個人是老師。"]], status: "待學" },
-      { section: "指示詞", title: "どれ", meaning: "哪一個", pronunciation: "dore", pattern: "どれ + ですか", examples: [["あなたの本はどれですか。", "你的書是哪一本？"], ["田中さんのかばんはどれですか。", "田中的包包是哪一個？"]], status: "待學" },
-      { section: "指示詞", title: "どの", meaning: "哪個...", pronunciation: "dono", pattern: "どの + N", examples: [["どの本が好きですか。", "你喜歡哪本書？"], ["どの人が先生ですか。", "哪個人是老師？"]], status: "待學" },
-      { section: "助詞", title: "〜の〜", meaning: "的 / 所屬 / 關係", pronunciation: "no", pattern: "N1 + の + N2", examples: [["私の名前はリンです。", "我的名字是 Lin。"], ["日本語の本です。", "是日文書。"]], status: "待學" },
-      { section: "助詞", title: "〜も", meaning: "也", pronunciation: "mo", pattern: "N + も", examples: [["私も学生です。", "我也是學生。"], ["これも水です。", "這也是水。"]], status: "待學" },
-      { section: "疑問句", title: "〜はどこですか", meaning: "...在哪裡？", pronunciation: "wa doko desu ka", pattern: "N + は + どこですか", examples: [["トイレはどこですか。", "廁所在哪裡？"], ["駅はどこですか。", "車站在哪裡？"]], status: "待學" },
-      { section: "疑問句", title: "〜は何ですか", meaning: "...是什麼？", pronunciation: "wa nan desu ka", pattern: "N + は + 何ですか", examples: [["これは何ですか。", "這是什麼？"], ["あなたの仕事は何ですか。", "你的工作是什麼？"]], status: "待學" },
-      { section: "存在句", title: "〜があります", meaning: "有某物 / 有植物", pronunciation: "ga arimasu", pattern: "N + があります", examples: [["机があります。", "有桌子。"], ["公園があります。", "有公園。"]], status: "待學" },
-      { section: "存在句", title: "〜がいます", meaning: "有人 / 有動物", pronunciation: "ga imasu", pattern: "N + がいます", examples: [["猫がいます。", "有貓。"], ["教室に学生がいます。", "教室裡有學生。"]], status: "待學" },
-      { section: "請求", title: "〜をください", meaning: "請給我...", pronunciation: "o kudasai", pattern: "N + をください", examples: [["水をください。", "請給我水。"], ["これをください。", "請給我這個。"]], status: "待學" },
-      { section: "喜好能力", title: "〜が好きです", meaning: "喜歡...", pronunciation: "ga suki desu", pattern: "N + が好きです", examples: [["私は音楽が好きです。", "我喜歡音樂。"], ["田中さんは猫が好きです。", "田中喜歡貓。"]], status: "待學" },
-      { section: "喜好能力", title: "〜がわかります", meaning: "懂 / 明白...", pronunciation: "ga wakarimasu", pattern: "N + がわかります", examples: [["日本語が少しわかります。", "我懂一點日文。"], ["この言葉がわかります。", "我懂這個詞。"]], status: "待學" },
-      { section: "動詞ます形", title: "〜を食べます", meaning: "吃...", pronunciation: "o tabemasu", pattern: "N + を + 食べます", examples: [["パンを食べます。", "吃麵包。"], ["昼ご飯を食べます。", "吃午餐。"]], status: "待學" },
-      { section: "動詞ます形", title: "〜へ行きます", meaning: "去...", pronunciation: "e ikimasu", pattern: "場所 + へ + 行きます", examples: [["学校へ行きます。", "去學校。"], ["日本へ行きます。", "去日本。"]], status: "待學" },
-      { section: "形容詞", title: "い形容詞 + です", meaning: "很...", pronunciation: "i keiyoushi desu", pattern: "い形容詞 + です", examples: [["この本はおもしろいです。", "這本書很有趣。"], ["今日は暑いです。", "今天很熱。"]], status: "待學" },
-      { section: "形容詞", title: "な形容詞 + です", meaning: "很...", pronunciation: "na keiyoushi desu", pattern: "な形容詞 + です", examples: [["この町は静かです。", "這個城市很安靜。"], ["この部屋はきれいです。", "這個房間很乾淨。"]], status: "待學" },
-      { section: "邀請請求", title: "〜ましょう", meaning: "一起...吧", pronunciation: "mashou", pattern: "Vます去ます + ましょう", examples: [["一緒に行きましょう。", "一起去吧。"], ["日本語を勉強しましょう。", "一起學日文吧。"]], status: "待學" },
-      { section: "邀請請求", title: "〜てください", meaning: "請做...", pronunciation: "te kudasai", pattern: "Vて形 + ください", examples: [["名前を書いてください。", "請寫名字。"], ["少し待ってください。", "請稍等一下。"]], status: "待學" }
-    ];
+      {
+            "section": "名詞句",
+            "title": "〜です",
+            "meaning": "是...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + です",
+            "examples": [
+                  [
+                        "私は学生です。",
+                        "我是學生。"
+                  ],
+                  [
+                        "これは本です。",
+                        "這是書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "名詞句",
+            "title": "〜ではありません",
+            "meaning": "不是...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + ではありません",
+            "examples": [
+                  [
+                        "私は先生ではありません。",
+                        "我不是老師。"
+                  ],
+                  [
+                        "これは水ではありません。",
+                        "這不是水。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "名詞句",
+            "title": "〜じゃありません",
+            "meaning": "不是...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + じゃありません",
+            "examples": [
+                  [
+                        "私は日本人じゃありません。",
+                        "我不是日本人。"
+                  ],
+                  [
+                        "これはペンじゃありません。",
+                        "這不是筆。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "疑問句",
+            "title": "〜ですか",
+            "meaning": "是...嗎",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "句子 + か",
+            "examples": [
+                  [
+                        "これは本ですか。",
+                        "這是書嗎？"
+                  ],
+                  [
+                        "田中さんは先生ですか。",
+                        "田中先生是老師嗎？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "基本回應",
+            "title": "はい / いいえ",
+            "meaning": "是 / 不是",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "はい / いいえ + 句子",
+            "examples": [
+                  [
+                        "はい、学生です。",
+                        "是，我是學生。"
+                  ],
+                  [
+                        "いいえ、先生ではありません。",
+                        "不是，我不是老師。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "指示詞",
+            "title": "これ / それ / あれ",
+            "meaning": "這個 / 那個 / 那個",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "これ/それ/あれ + は + Nです",
+            "examples": [
+                  [
+                        "これは水です。",
+                        "這是水。"
+                  ],
+                  [
+                        "それは辞書です。",
+                        "那是字典。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "指示詞",
+            "title": "この / その / あの",
+            "meaning": "這個... / 那個...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "この/その/あの + N",
+            "examples": [
+                  [
+                        "この本は新しいです。",
+                        "這本書是新的。"
+                  ],
+                  [
+                        "あの人は先生です。",
+                        "那個人是老師。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "指示詞",
+            "title": "どれ",
+            "meaning": "哪一個",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "どれ + ですか",
+            "examples": [
+                  [
+                        "あなたの本はどれですか。",
+                        "你的書是哪一本？"
+                  ],
+                  [
+                        "田中さんのかばんはどれですか。",
+                        "田中的包包是哪一個？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "指示詞",
+            "title": "どの",
+            "meaning": "哪個...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "どの + N",
+            "examples": [
+                  [
+                        "どの本が好きですか。",
+                        "你喜歡哪本書？"
+                  ],
+                  [
+                        "どの人が先生ですか。",
+                        "哪個人是老師？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "名詞句",
+            "title": "〜の〜",
+            "meaning": "的 / 所屬 / 關係",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N1 + の + N2",
+            "examples": [
+                  [
+                        "私の名前はリンです。",
+                        "我的名字是 Lin。"
+                  ],
+                  [
+                        "日本語の本です。",
+                        "是日文書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "助詞",
+            "title": "〜も",
+            "meaning": "也",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + も",
+            "examples": [
+                  [
+                        "私も学生です。",
+                        "我也是學生。"
+                  ],
+                  [
+                        "これも水です。",
+                        "這也是水。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "助詞",
+            "title": "〜は〜です",
+            "meaning": "以...為主題說明",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N1 + は + N2です",
+            "examples": [
+                  [
+                        "私は会社員です。",
+                        "我是上班族。"
+                  ],
+                  [
+                        "これは日本語の本です。",
+                        "這是日文書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "疑問句",
+            "title": "〜はどこですか",
+            "meaning": "...在哪裡",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + は + どこですか",
+            "examples": [
+                  [
+                        "トイレはどこですか。",
+                        "廁所在哪裡？"
+                  ],
+                  [
+                        "駅はどこですか。",
+                        "車站在哪裡？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "疑問句",
+            "title": "〜は何ですか",
+            "meaning": "...是什麼",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + は + 何ですか",
+            "examples": [
+                  [
+                        "これは何ですか。",
+                        "這是什麼？"
+                  ],
+                  [
+                        "あなたの仕事は何ですか。",
+                        "你的工作是什麼？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "疑問句",
+            "title": "〜は誰ですか",
+            "meaning": "...是誰",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + は + 誰ですか",
+            "examples": [
+                  [
+                        "あの人は誰ですか。",
+                        "那個人是誰？"
+                  ],
+                  [
+                        "この人は誰ですか。",
+                        "這個人是誰？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "存在句",
+            "title": "〜があります",
+            "meaning": "有某物 / 有植物",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + があります",
+            "examples": [
+                  [
+                        "机があります。",
+                        "有桌子。"
+                  ],
+                  [
+                        "公園があります。",
+                        "有公園。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "存在句",
+            "title": "〜がいます",
+            "meaning": "有人 / 有動物",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + がいます",
+            "examples": [
+                  [
+                        "猫がいます。",
+                        "有貓。"
+                  ],
+                  [
+                        "教室に学生がいます。",
+                        "教室裡有學生。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "存在句",
+            "title": "〜に〜があります",
+            "meaning": "在某地有某物",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "場所 + に + N + があります",
+            "examples": [
+                  [
+                        "部屋に机があります。",
+                        "房間裡有桌子。"
+                  ],
+                  [
+                        "駅の前に銀行があります。",
+                        "車站前有銀行。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "存在句",
+            "title": "〜に〜がいます",
+            "meaning": "在某地有人 / 動物",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "場所 + に + N + がいます",
+            "examples": [
+                  [
+                        "公園に犬がいます。",
+                        "公園裡有狗。"
+                  ],
+                  [
+                        "教室に先生がいます。",
+                        "教室裡有老師。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "存在句",
+            "title": "〜は〜にあります",
+            "meaning": "某物在某地",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + は + 場所 + にあります",
+            "examples": [
+                  [
+                        "本は机の上にあります。",
+                        "書在桌上。"
+                  ],
+                  [
+                        "銀行は駅の前にあります。",
+                        "銀行在車站前。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "存在句",
+            "title": "〜は〜にいます",
+            "meaning": "某人 / 動物在某地",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + は + 場所 + にいます",
+            "examples": [
+                  [
+                        "田中さんは教室にいます。",
+                        "田中在教室。"
+                  ],
+                  [
+                        "猫は部屋にいます。",
+                        "貓在房間裡。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "請求",
+            "title": "〜をください",
+            "meaning": "請給我...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + をください",
+            "examples": [
+                  [
+                        "水をください。",
+                        "請給我水。"
+                  ],
+                  [
+                        "これをください。",
+                        "請給我這個。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "請求",
+            "title": "〜をお願いします",
+            "meaning": "麻煩給我 / 拜託...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + をお願いします",
+            "examples": [
+                  [
+                        "コーヒーをお願いします。",
+                        "麻煩給我咖啡。"
+                  ],
+                  [
+                        "日本語の本をお願いします。",
+                        "麻煩給我日文書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "喜好",
+            "title": "〜が好きです",
+            "meaning": "喜歡...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + が好きです",
+            "examples": [
+                  [
+                        "私は音楽が好きです。",
+                        "我喜歡音樂。"
+                  ],
+                  [
+                        "田中さんは猫が好きです。",
+                        "田中喜歡貓。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "喜好",
+            "title": "〜が嫌いです",
+            "meaning": "討厭...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + が嫌いです",
+            "examples": [
+                  [
+                        "私は魚が嫌いです。",
+                        "我討厭魚。"
+                  ],
+                  [
+                        "彼は勉強が嫌いです。",
+                        "他討厭讀書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "能力評價",
+            "title": "〜が上手です",
+            "meaning": "擅長...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + が上手です",
+            "examples": [
+                  [
+                        "彼は日本語が上手です。",
+                        "他很擅長日文。"
+                  ],
+                  [
+                        "母は料理が上手です。",
+                        "媽媽很會做菜。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "能力評價",
+            "title": "〜が下手です",
+            "meaning": "不擅長...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + が下手です",
+            "examples": [
+                  [
+                        "私は歌が下手です。",
+                        "我不擅長唱歌。"
+                  ],
+                  [
+                        "彼は料理が下手です。",
+                        "他不會做菜。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "能力",
+            "title": "〜がわかります",
+            "meaning": "懂 / 明白...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + がわかります",
+            "examples": [
+                  [
+                        "日本語が少しわかります。",
+                        "我懂一點日文。"
+                  ],
+                  [
+                        "この言葉がわかります。",
+                        "我懂這個詞。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "能力",
+            "title": "〜ができます",
+            "meaning": "會 / 能...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + ができます",
+            "examples": [
+                  [
+                        "日本語ができます。",
+                        "我會日文。"
+                  ],
+                  [
+                        "料理ができます。",
+                        "我會做菜。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "動詞ます形",
+            "title": "〜を食べます",
+            "meaning": "吃...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + を + 食べます",
+            "examples": [
+                  [
+                        "パンを食べます。",
+                        "吃麵包。"
+                  ],
+                  [
+                        "昼ご飯を食べます。",
+                        "吃午餐。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "動詞ます形",
+            "title": "〜を飲みます",
+            "meaning": "喝...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + を + 飲みます",
+            "examples": [
+                  [
+                        "水を飲みます。",
+                        "喝水。"
+                  ],
+                  [
+                        "コーヒーを飲みます。",
+                        "喝咖啡。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "動詞ます形",
+            "title": "〜を見ます",
+            "meaning": "看...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + を + 見ます",
+            "examples": [
+                  [
+                        "映画を見ます。",
+                        "看電影。"
+                  ],
+                  [
+                        "テレビを見ます。",
+                        "看電視。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "動詞ます形",
+            "title": "〜を読みます",
+            "meaning": "讀...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + を + 読みます",
+            "examples": [
+                  [
+                        "本を読みます。",
+                        "讀書。"
+                  ],
+                  [
+                        "新聞を読みます。",
+                        "看報紙。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "動詞ます形",
+            "title": "〜を書きます",
+            "meaning": "寫...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + を + 書きます",
+            "examples": [
+                  [
+                        "名前を書きます。",
+                        "寫名字。"
+                  ],
+                  [
+                        "手紙を書きます。",
+                        "寫信。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "移動",
+            "title": "〜へ行きます",
+            "meaning": "去...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "場所 + へ + 行きます",
+            "examples": [
+                  [
+                        "学校へ行きます。",
+                        "去學校。"
+                  ],
+                  [
+                        "日本へ行きます。",
+                        "去日本。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "移動",
+            "title": "〜に行きます",
+            "meaning": "去...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "場所 + に + 行きます",
+            "examples": [
+                  [
+                        "会社に行きます。",
+                        "去公司。"
+                  ],
+                  [
+                        "駅に行きます。",
+                        "去車站。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "交通",
+            "title": "〜で行きます",
+            "meaning": "搭...去",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "交通工具 + で + 行きます",
+            "examples": [
+                  [
+                        "バスで行きます。",
+                        "搭公車去。"
+                  ],
+                  [
+                        "電車で学校へ行きます。",
+                        "搭電車去學校。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "場所",
+            "title": "〜で食べます",
+            "meaning": "在某地做動作",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "場所 + で + 動詞",
+            "examples": [
+                  [
+                        "家でご飯を食べます。",
+                        "在家吃飯。"
+                  ],
+                  [
+                        "図書館で本を読みます。",
+                        "在圖書館讀書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "否定",
+            "title": "〜ません",
+            "meaning": "不做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + ません",
+            "examples": [
+                  [
+                        "今日は行きません。",
+                        "今天不去。"
+                  ],
+                  [
+                        "肉を食べません。",
+                        "不吃肉。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "過去",
+            "title": "〜ました",
+            "meaning": "做了...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + ました",
+            "examples": [
+                  [
+                        "昨日、映画を見ました。",
+                        "昨天看了電影。"
+                  ],
+                  [
+                        "朝ご飯を食べました。",
+                        "吃了早餐。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "過去否定",
+            "title": "〜ませんでした",
+            "meaning": "沒有做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + ませんでした",
+            "examples": [
+                  [
+                        "昨日、勉強しませんでした。",
+                        "昨天沒有讀書。"
+                  ],
+                  [
+                        "朝ご飯を食べませんでした。",
+                        "沒有吃早餐。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "い形容詞",
+            "title": "い形容詞 + です",
+            "meaning": "很...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "い形容詞 + です",
+            "examples": [
+                  [
+                        "この本はおもしろいです。",
+                        "這本書很有趣。"
+                  ],
+                  [
+                        "今日は暑いです。",
+                        "今天很熱。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "い形容詞",
+            "title": "い形容詞否定",
+            "meaning": "不...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "い形容詞去い + くないです",
+            "examples": [
+                  [
+                        "この料理は高くないです。",
+                        "這道料理不貴。"
+                  ],
+                  [
+                        "今日は寒くないです。",
+                        "今天不冷。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "い形容詞",
+            "title": "い形容詞過去",
+            "meaning": "以前很...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "い形容詞去い + かったです",
+            "examples": [
+                  [
+                        "昨日は暑かったです。",
+                        "昨天很熱。"
+                  ],
+                  [
+                        "映画はおもしろかったです。",
+                        "電影很有趣。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "な形容詞",
+            "title": "な形容詞 + です",
+            "meaning": "很...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "な形容詞 + です",
+            "examples": [
+                  [
+                        "この町は静かです。",
+                        "這個城市很安靜。"
+                  ],
+                  [
+                        "この部屋はきれいです。",
+                        "這個房間很乾淨。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "な形容詞",
+            "title": "な形容詞否定",
+            "meaning": "不...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "な形容詞 + ではありません",
+            "examples": [
+                  [
+                        "ここは静かではありません。",
+                        "這裡不安靜。"
+                  ],
+                  [
+                        "この店は便利ではありません。",
+                        "這家店不方便。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "な形容詞",
+            "title": "な形容詞 + な + 名詞",
+            "meaning": "...的名詞",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "な形容詞 + な + N",
+            "examples": [
+                  [
+                        "静かな町です。",
+                        "是安靜的城市。"
+                  ],
+                  [
+                        "きれいな部屋です。",
+                        "是乾淨的房間。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "位置",
+            "title": "〜の前に",
+            "meaning": "在...前面",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + の前に",
+            "examples": [
+                  [
+                        "駅の前に銀行があります。",
+                        "車站前有銀行。"
+                  ],
+                  [
+                        "机の前に椅子があります。",
+                        "桌子前有椅子。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "位置",
+            "title": "〜の後ろに",
+            "meaning": "在...後面",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + の後ろに",
+            "examples": [
+                  [
+                        "家の後ろに公園があります。",
+                        "家後面有公園。"
+                  ],
+                  [
+                        "車の後ろに猫がいます。",
+                        "車後面有貓。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "位置",
+            "title": "〜の上に",
+            "meaning": "在...上面",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + の上に",
+            "examples": [
+                  [
+                        "机の上に本があります。",
+                        "桌上有書。"
+                  ],
+                  [
+                        "棚の上に時計があります。",
+                        "架子上有時鐘。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "位置",
+            "title": "〜の下に",
+            "meaning": "在...下面",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + の下に",
+            "examples": [
+                  [
+                        "机の下にかばんがあります。",
+                        "桌下有包包。"
+                  ],
+                  [
+                        "椅子の下に猫がいます。",
+                        "椅子下面有貓。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "時間 / 範圍",
+            "title": "〜から〜まで",
+            "meaning": "從...到...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N + から + N + まで",
+            "examples": [
+                  [
+                        "学校は九時から三時までです。",
+                        "學校從九點到三點。"
+                  ],
+                  [
+                        "東京から大阪まで行きます。",
+                        "從東京去到大阪。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "時間",
+            "title": "〜時に",
+            "meaning": "在幾點",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "時間 + に",
+            "examples": [
+                  [
+                        "七時に起きます。",
+                        "七點起床。"
+                  ],
+                  [
+                        "九時に学校へ行きます。",
+                        "九點去學校。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "時間",
+            "title": "〜ごろ",
+            "meaning": "大約...點",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "時間 + ごろ",
+            "examples": [
+                  [
+                        "七時ごろ起きます。",
+                        "大約七點起床。"
+                  ],
+                  [
+                        "十時ごろ寝ます。",
+                        "大約十點睡。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "頻率",
+            "title": "毎日〜ます",
+            "meaning": "每天做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "毎日 + Vます",
+            "examples": [
+                  [
+                        "毎日、日本語を勉強します。",
+                        "每天學日文。"
+                  ],
+                  [
+                        "毎日、コーヒーを飲みます。",
+                        "每天喝咖啡。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "頻率",
+            "title": "よく〜ます",
+            "meaning": "常常做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "よく + Vます",
+            "examples": [
+                  [
+                        "よく音楽を聞きます。",
+                        "常常聽音樂。"
+                  ],
+                  [
+                        "よく本を読みます。",
+                        "常常讀書。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "頻率",
+            "title": "あまり〜ません",
+            "meaning": "不太...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "あまり + Vません",
+            "examples": [
+                  [
+                        "あまりテレビを見ません。",
+                        "不太看電視。"
+                  ],
+                  [
+                        "あまり肉を食べません。",
+                        "不太吃肉。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "頻率",
+            "title": "全然〜ません",
+            "meaning": "完全不...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "全然 + Vません",
+            "examples": [
+                  [
+                        "全然わかりません。",
+                        "完全不懂。"
+                  ],
+                  [
+                        "全然行きません。",
+                        "完全不去。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "邀請 / 提議",
+            "title": "〜ましょう",
+            "meaning": "一起...吧",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + ましょう",
+            "examples": [
+                  [
+                        "一緒に行きましょう。",
+                        "一起去吧。"
+                  ],
+                  [
+                        "日本語を勉強しましょう。",
+                        "一起學日文吧。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "邀請",
+            "title": "〜ませんか",
+            "meaning": "要不要...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + ませんか",
+            "examples": [
+                  [
+                        "一緒に映画を見ませんか。",
+                        "要不要一起看電影？"
+                  ],
+                  [
+                        "コーヒーを飲みませんか。",
+                        "要不要喝咖啡？"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "請求",
+            "title": "〜てください",
+            "meaning": "請做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vて形 + ください",
+            "examples": [
+                  [
+                        "名前を書いてください。",
+                        "請寫名字。"
+                  ],
+                  [
+                        "少し待ってください。",
+                        "請稍等一下。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "許可",
+            "title": "〜てもいいです",
+            "meaning": "可以做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vて形 + もいいです",
+            "examples": [
+                  [
+                        "ここで写真を撮ってもいいです。",
+                        "可以在這裡拍照。"
+                  ],
+                  [
+                        "水を飲んでもいいです。",
+                        "可以喝水。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "禁止",
+            "title": "〜てはいけません",
+            "meaning": "不可以做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vて形 + はいけません",
+            "examples": [
+                  [
+                        "ここでタバコを吸ってはいけません。",
+                        "不可以在這裡抽菸。"
+                  ],
+                  [
+                        "教室で食べてはいけません。",
+                        "不可以在教室吃東西。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "願望",
+            "title": "〜たいです",
+            "meaning": "想做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + たいです",
+            "examples": [
+                  [
+                        "日本へ行きたいです。",
+                        "想去日本。"
+                  ],
+                  [
+                        "寿司を食べたいです。",
+                        "想吃壽司。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "願望否定",
+            "title": "〜たくないです",
+            "meaning": "不想做...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Vます去ます + たくないです",
+            "examples": [
+                  [
+                        "今日は勉強したくないです。",
+                        "今天不想讀書。"
+                  ],
+                  [
+                        "肉を食べたくないです。",
+                        "不想吃肉。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "比較",
+            "title": "〜より〜のほうが",
+            "meaning": "N2比N1更...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "N1よりN2のほうが + 形容詞",
+            "examples": [
+                  [
+                        "東京より京都のほうが静かです。",
+                        "京都比東京安靜。"
+                  ],
+                  [
+                        "肉より魚のほうが好きです。",
+                        "比起肉，我更喜歡魚。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "最高級",
+            "title": "〜の中で〜が一番",
+            "meaning": "在...之中最...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "Nの中でNが一番 + 形容詞",
+            "examples": [
+                  [
+                        "果物の中でりんごが一番好きです。",
+                        "水果中我最喜歡蘋果。"
+                  ],
+                  [
+                        "一年の中で夏が一番暑いです。",
+                        "一年中夏天最熱。"
+                  ]
+            ],
+            "status": "待學"
+      },
+      {
+            "section": "想法",
+            "title": "〜と思います",
+            "meaning": "我覺得...",
+            "pronunciation": "按播放聽標準發音",
+            "pattern": "普通形 + と思います",
+            "examples": [
+                  [
+                        "明日は雨だと思います。",
+                        "我覺得明天會下雨。"
+                  ],
+                  [
+                        "この本はおもしろいと思います。",
+                        "我覺得這本書很有趣。"
+                  ]
+            ],
+            "status": "待學"
+      }
+];
 
     const vocabulary = [
       ["住家類型", "apartment", "apartamento", "公寓"],
@@ -910,7 +2149,49 @@
       ["相關詞", "real estate agency", "agencia inmobiliaria", "房仲 / 房地產公司"],
       ["相關詞", "advertisement / listing", "anuncio", "廣告 / 房源"],
       ["相關詞", "offer", "oferta", "優惠 / 報價"],
-      ["相關詞", "advertisement", "publicidad", "廣告"]
+      ["相關詞", "advertisement", "publicidad", "廣告"],
+      ["食物飲料", "water", "agua", "水"],
+      ["食物飲料", "coffee", "café", "咖啡"],
+      ["食物飲料", "tea", "té", "茶"],
+      ["食物飲料", "bread", "pan", "麵包"],
+      ["食物飲料", "rice", "arroz", "米飯"],
+      ["食物飲料", "chicken", "pollo", "雞肉"],
+      ["食物飲料", "fish", "pescado", "魚肉"],
+      ["食物飲料", "fruit", "fruta", "水果"],
+      ["食物飲料", "vegetables", "verduras", "蔬菜"],
+      ["食物飲料", "breakfast", "desayuno", "早餐"],
+      ["食物飲料", "lunch", "comida", "午餐"],
+      ["食物飲料", "dinner", "cena", "晚餐"],
+      ["交通城市", "train", "tren", "火車"],
+      ["交通城市", "metro", "metro", "捷運 / 地鐵"],
+      ["交通城市", "bus", "autobús", "公車"],
+      ["交通城市", "taxi", "taxi", "計程車"],
+      ["交通城市", "airport", "aeropuerto", "機場"],
+      ["交通城市", "station", "estación", "車站"],
+      ["交通城市", "street", "calle", "街道"],
+      ["交通城市", "square", "plaza", "廣場"],
+      ["交通城市", "market", "mercado", "市場"],
+      ["交通城市", "pharmacy", "farmacia", "藥局"],
+      ["時間日期", "today", "hoy", "今天"],
+      ["時間日期", "tomorrow", "mañana", "明天"],
+      ["時間日期", "yesterday", "ayer", "昨天"],
+      ["時間日期", "morning", "mañana", "早上"],
+      ["時間日期", "afternoon", "tarde", "下午"],
+      ["時間日期", "night", "noche", "晚上"],
+      ["時間日期", "Monday", "lunes", "星期一"],
+      ["時間日期", "Friday", "viernes", "星期五"],
+      ["人物描述", "tall", "alto / alta", "高的"],
+      ["人物描述", "short", "bajo / baja", "矮的"],
+      ["人物描述", "friendly", "simpático / simpática", "友善的"],
+      ["人物描述", "quiet", "tranquilo / tranquila", "安靜的"],
+      ["人物描述", "busy", "ocupado / ocupada", "忙碌的"],
+      ["人物描述", "happy", "contento / contenta", "開心的"],
+      ["購物", "price", "precio", "價格"],
+      ["購物", "money", "dinero", "錢"],
+      ["購物", "card", "tarjeta", "卡"],
+      ["購物", "cash", "efectivo", "現金"],
+      ["購物", "size", "talla", "尺寸"],
+      ["購物", "receipt", "recibo", "收據"]
     ];
 
     const cards = document.querySelector("#cards");
