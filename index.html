@@ -828,6 +828,7 @@
           <div id="practiceFeedback" class="practice-feedback"></div>
           <div class="practice-actions">
             <button id="nextQuestion" class="chip active" type="button">下一題</button>
+            <button id="reviewWrong" class="chip" type="button">錯題重練</button>
             <button id="resetPractice" class="chip" type="button">重置分數</button>
           </div>
         </div>
@@ -835,6 +836,8 @@
           <div class="score-grid">
             <div class="score-box"><strong id="scoreText">0</strong><span>答對</span></div>
             <div class="score-box"><strong id="streakText">0</strong><span>連勝</span></div>
+            <div class="score-box"><strong id="wrongText">0</strong><span>錯題</span></div>
+            <div class="score-box"><strong id="answeredText">0</strong><span>已答</span></div>
           </div>
           <p class="practice-prompt">考試題會輪流出現聽力理解、翻譯選擇、文法選擇、句子完成。這區和學習卡分開出題。</p>
         </aside>
@@ -2394,9 +2397,12 @@
     const answerGrid = document.querySelector("#answerGrid");
     const practiceFeedback = document.querySelector("#practiceFeedback");
     const nextQuestion = document.querySelector("#nextQuestion");
+    const reviewWrong = document.querySelector("#reviewWrong");
     const resetPractice = document.querySelector("#resetPractice");
     const scoreText = document.querySelector("#scoreText");
     const streakText = document.querySelector("#streakText");
+    const wrongText = document.querySelector("#wrongText");
+    const answeredText = document.querySelector("#answeredText");
     const progressText = document.querySelector("#progressText");
     const progressBar = document.querySelector("#progressBar");
     const brandTitle = document.querySelector("#brandTitle");
@@ -2418,6 +2424,7 @@
     let currentQuestion = null;
     let importedBookWords = [];
     let importedSpeedQuestions = [];
+    let wrongQuestions = { spanish: [], japanese: [] };
     let activeBookRange = "all";
     let currentBookWord = null;
     let practiceStats = {
@@ -2488,6 +2495,52 @@
 
     function activeLessons() {
       return activeConfig().lessons;
+    }
+
+    function saveJson(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function readJson(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || "null") ?? fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveCoreState() {
+      localStorage.setItem("activeLanguage", activeLanguage);
+      localStorage.setItem("speechRate", String(speechRate));
+      saveJson("practiceStats", practiceStats);
+      saveJson("wrongQuestions", wrongQuestions);
+      saveJson("lessonStatuses", {
+        spanish: spanishLessons.map(item => [item.title, item.status]),
+        japanese: japaneseLessons.map(item => [item.title, item.status])
+      });
+    }
+
+    function applyStatuses(lessons, saved) {
+      const map = new Map(saved || []);
+      lessons.forEach(item => {
+        if (map.has(item.title)) item.status = map.get(item.title);
+      });
+    }
+
+    function loadCoreState() {
+      activeLanguage = localStorage.getItem("activeLanguage") || activeLanguage;
+      speechRate = Number(localStorage.getItem("speechRate") || speechRate);
+      speedInput.value = String(speechRate);
+      speedValue.textContent = `${speechRate.toFixed(2)}x`;
+      practiceStats = readJson("practiceStats", practiceStats);
+      wrongQuestions = readJson("wrongQuestions", wrongQuestions);
+      practiceStats.spanish ||= { score: 0, streak: 0, answered: 0 };
+      practiceStats.japanese ||= { score: 0, streak: 0, answered: 0 };
+      wrongQuestions.spanish ||= [];
+      wrongQuestions.japanese ||= [];
+      const statuses = readJson("lessonStatuses", {});
+      applyStatuses(spanishLessons, statuses.spanish);
+      applyStatuses(japaneseLessons, statuses.japanese);
     }
 
     function speak(text) {
@@ -2669,6 +2722,8 @@
       const stats = practiceStats[activeLanguage];
       scoreText.textContent = stats.score;
       streakText.textContent = stats.streak;
+      answeredText.textContent = stats.answered;
+      wrongText.textContent = wrongQuestions[activeLanguage].length;
     }
 
     function renderQuestion() {
@@ -2698,6 +2753,8 @@
         speak(currentQuestion.speakText);
       } else {
         stats.streak = 0;
+        wrongQuestions[activeLanguage].push(currentQuestion);
+        wrongQuestions[activeLanguage] = wrongQuestions[activeLanguage].slice(-30);
         practiceFeedback.textContent = `差一點，正確答案是：${currentQuestion.answer}。${currentQuestion.explanation}`;
         button.classList.add("wrong");
         [...answerGrid.querySelectorAll(".answer-btn")].forEach(item => {
@@ -2705,6 +2762,7 @@
         });
       }
       updatePracticeStats();
+      saveCoreState();
     }
 
     function cycleStatus(item) {
@@ -2712,6 +2770,7 @@
       const next = states[(states.indexOf(item.status) + 1) % states.length];
       item.status = next;
       render();
+      saveCoreState();
     }
 
     function updateProgress() {
@@ -2860,6 +2919,7 @@
           item.classList.toggle("active", item.dataset.filter === "all");
         });
         renderLanguage();
+        saveCoreState();
       });
     });
 
@@ -2908,13 +2968,35 @@
 
     resetPractice.addEventListener("click", () => {
       practiceStats[activeLanguage] = { score: 0, streak: 0, answered: 0 };
+      wrongQuestions[activeLanguage] = [];
       answerGrid.dataset.locked = "false";
       renderQuestion();
+      saveCoreState();
     });
 
     speedInput.addEventListener("input", () => {
       speechRate = Number(speedInput.value);
       speedValue.textContent = `${speechRate.toFixed(2)}x`;
+      saveCoreState();
+    });
+
+    reviewWrong.addEventListener("click", () => {
+      const bank = wrongQuestions[activeLanguage];
+      if (!bank.length) {
+        practiceFeedback.textContent = "目前沒有錯題。";
+        return;
+      }
+      currentQuestion = { ...shuffle(bank)[0] };
+      currentQuestion.options = shuffle(currentQuestion.options);
+      answerGrid.dataset.locked = "false";
+      practiceMode.textContent = `錯題重練｜${currentQuestion.mode}`;
+      practiceQuestion.textContent = currentQuestion.question;
+      practicePrompt.textContent = currentQuestion.prompt;
+      practiceFeedback.textContent = "";
+      answerGrid.innerHTML = currentQuestion.options.map(option => (
+        `<button class="answer-btn" data-answer="${option}" type="button">${option}</button>`
+      )).join("");
+      updatePracticeStats();
     });
 
     importBookWords.addEventListener("click", () => {
@@ -2998,6 +3080,7 @@
     vocabSearch.addEventListener("input", renderVocabulary);
     loadBookWords();
     loadSpeedQuestions();
+    loadCoreState();
     renderLanguage();
   </script>
 </body>
