@@ -86,6 +86,31 @@
       background: rgba(255, 255, 255, 0.06);
     }
 
+    .task-detail {
+      margin: 10px 0 0;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mini-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .mini-actions button {
+      min-height: 32px;
+      padding: 6px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.82);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
     .language-switch {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -555,6 +580,16 @@
       cursor: pointer;
     }
 
+    .review-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
     .planner {
       margin-top: 18px;
       display: grid;
@@ -773,6 +808,18 @@
           <strong id="progressText">0 / 24</strong>
         </div>
         <div class="bar"><span id="progressBar"></span></div>
+      </section>
+
+      <section class="progress-card" aria-label="今日任務">
+        <div class="progress-top">
+          <span>今日任務</span>
+          <strong id="todayTaskText">0</strong>
+        </div>
+        <p id="todayTaskDetail" class="task-detail">待複習 0，建議新學 0。</p>
+        <div class="mini-actions">
+          <button id="showTodayTasks" type="button">只看今日</button>
+          <button id="clearTodayFilter" type="button">看全部</button>
+        </div>
       </section>
 
       <nav id="sectionNav" class="nav" aria-label="章節">
@@ -2405,6 +2452,10 @@
     const answeredText = document.querySelector("#answeredText");
     const progressText = document.querySelector("#progressText");
     const progressBar = document.querySelector("#progressBar");
+    const todayTaskText = document.querySelector("#todayTaskText");
+    const todayTaskDetail = document.querySelector("#todayTaskDetail");
+    const showTodayTasks = document.querySelector("#showTodayTasks");
+    const clearTodayFilter = document.querySelector("#clearTodayFilter");
     const brandTitle = document.querySelector("#brandTitle");
     const brandSubtitle = document.querySelector("#brandSubtitle");
     const dailyTitle = document.querySelector("#dailyTitle");
@@ -2420,6 +2471,7 @@
     let activeLanguage = "spanish";
     let currentSection = "all";
     let currentFilter = "all";
+    let showTodayOnly = false;
     let speechRate = Number(speedInput.value);
     let currentQuestion = null;
     let importedBookWords = [];
@@ -2431,6 +2483,7 @@
       spanish: { score: 0, streak: 0, answered: 0 },
       japanese: { score: 0, streak: 0, answered: 0 }
     };
+    let reviewMeta = { spanish: {}, japanese: {} };
 
     const languageConfig = {
       spanish: {
@@ -2514,6 +2567,7 @@
       localStorage.setItem("speechRate", String(speechRate));
       saveJson("practiceStats", practiceStats);
       saveJson("wrongQuestions", wrongQuestions);
+      saveJson("reviewMeta", reviewMeta);
       saveJson("lessonStatuses", {
         spanish: spanishLessons.map(item => [item.title, item.status]),
         japanese: japaneseLessons.map(item => [item.title, item.status])
@@ -2534,13 +2588,62 @@
       speedValue.textContent = `${speechRate.toFixed(2)}x`;
       practiceStats = readJson("practiceStats", practiceStats);
       wrongQuestions = readJson("wrongQuestions", wrongQuestions);
-      practiceStats.spanish ||= { score: 0, streak: 0, answered: 0 };
-      practiceStats.japanese ||= { score: 0, streak: 0, answered: 0 };
-      wrongQuestions.spanish ||= [];
-      wrongQuestions.japanese ||= [];
+      reviewMeta = readJson("reviewMeta", reviewMeta);
+      if (!practiceStats.spanish) practiceStats.spanish = { score: 0, streak: 0, answered: 0 };
+      if (!practiceStats.japanese) practiceStats.japanese = { score: 0, streak: 0, answered: 0 };
+      if (!wrongQuestions.spanish) wrongQuestions.spanish = [];
+      if (!wrongQuestions.japanese) wrongQuestions.japanese = [];
+      if (!reviewMeta.spanish) reviewMeta.spanish = {};
+      if (!reviewMeta.japanese) reviewMeta.japanese = {};
       const statuses = readJson("lessonStatuses", {});
       applyStatuses(spanishLessons, statuses.spanish);
       applyStatuses(japaneseLessons, statuses.japanese);
+    }
+
+    function todayString() {
+      const date = new Date();
+      const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+      return offsetDate.toISOString().slice(0, 10);
+    }
+
+    function addDays(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+      return offsetDate.toISOString().slice(0, 10);
+    }
+
+    function reviewInfo(item) {
+      const meta = reviewMeta[activeLanguage][item.title] || {};
+      return {
+        nextReview: meta.nextReview || todayString(),
+        count: meta.count || 0
+      };
+    }
+
+    function scheduleReview(item) {
+      const current = reviewInfo(item);
+      const intervals = [1, 3, 7, 14, 30, 60];
+      const nextCount = Math.min(current.count + 1, intervals.length);
+      reviewMeta[activeLanguage][item.title] = {
+        count: nextCount,
+        nextReview: addDays(intervals[nextCount - 1])
+      };
+      item.status = nextCount >= 3 ? "熟練" : "學習中";
+      saveCoreState();
+    }
+
+    function isDue(item) {
+      const info = reviewInfo(item);
+      return info.nextReview <= todayString();
+    }
+
+    function updateTodayTasks() {
+      const lessons = activeLessons();
+      const due = lessons.filter(item => item.status !== "待學" && isDue(item)).length;
+      const fresh = lessons.filter(item => item.status === "待學").slice(0, 5).length;
+      todayTaskText.textContent = due + fresh;
+      todayTaskDetail.textContent = `待複習 ${due}，建議新學 ${fresh}。`;
     }
 
     function speak(text) {
@@ -2769,6 +2872,14 @@
       const states = ["待學", "學習中", "熟練"];
       const next = states[(states.indexOf(item.status) + 1) % states.length];
       item.status = next;
+      if (next === "學習中") {
+        if (!reviewMeta[activeLanguage][item.title]) {
+          reviewMeta[activeLanguage][item.title] = { count: 0, nextReview: todayString() };
+        }
+      }
+      if (next === "熟練") {
+        reviewMeta[activeLanguage][item.title] = { count: 3, nextReview: addDays(14) };
+      }
       render();
       saveCoreState();
     }
@@ -2778,6 +2889,7 @@
       const done = lessons.filter(item => item.status === "熟練").length;
       progressText.textContent = `${done} / ${lessons.length}`;
       progressBar.style.width = `${Math.max(8, done / lessons.length * 100)}%`;
+      updateTodayTasks();
     }
 
     function filteredLessons() {
@@ -2785,11 +2897,12 @@
       return activeLessons().filter(item => {
         const sectionMatch = currentSection === "all" || item.section === currentSection;
         const statusMatch = currentFilter === "all" || item.status === currentFilter;
+        const todayMatch = !showTodayOnly || (item.status === "待學" || (item.status !== "待學" && isDue(item)));
         const text = [
           item.section, item.title, item.meaning, item.pronunciation, item.pattern,
           ...item.examples.flat()
         ].join(" ").toLowerCase();
-        return sectionMatch && statusMatch && text.includes(q);
+        return sectionMatch && statusMatch && todayMatch && text.includes(q);
       });
     }
 
@@ -2855,6 +2968,10 @@
             </div>
             <button class="status" data-action="status" data-title="${item.title}" title="切換學習狀態">${item.status}</button>
           </div>
+          <div class="review-meta">
+            <span>下次複習：${reviewInfo(item).nextReview}</span>
+            <button class="status" data-action="review" data-title="${item.title}" title="完成本次複習">複習完成</button>
+          </div>
           <p class="meaning">${item.meaning}</p>
           <div class="pronounce">
             <span>近似發音</span>
@@ -2914,6 +3031,7 @@
         activeLanguage = button.dataset.language;
         currentSection = "all";
         currentFilter = "all";
+        showTodayOnly = false;
         searchInput.value = "";
         document.querySelectorAll(".chip").forEach(item => {
           item.classList.toggle("active", item.dataset.filter === "all");
@@ -2944,6 +3062,29 @@
         const item = activeLessons().find(lesson => lesson.title === target.dataset.title);
         cycleStatus(item);
       }
+
+      if (target.dataset.action === "review") {
+        const item = activeLessons().find(lesson => lesson.title === target.dataset.title);
+        scheduleReview(item);
+        render();
+      }
+    });
+
+    showTodayTasks.addEventListener("click", () => {
+      showTodayOnly = true;
+      currentSection = "all";
+      currentFilter = "all";
+      searchInput.value = "";
+      document.querySelectorAll(".chip").forEach(item => {
+        item.classList.toggle("active", item.dataset.filter === "all");
+      });
+      renderNav();
+      render();
+    });
+
+    clearTodayFilter.addEventListener("click", () => {
+      showTodayOnly = false;
+      render();
     });
 
     vocabTable.addEventListener("click", event => {
